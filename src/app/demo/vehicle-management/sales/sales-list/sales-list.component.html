@@ -1,0 +1,119 @@
+<div class="container-fluid">
+  <div class="row mb-4">
+    <div class="col-12 d-flex justify-content-between align-items-center">
+      <h2 class="mb-0">Vehicle Sales</h2>
+
+      <!-- Add Sale, Export and Print Buttons -->
+      <div class="d-flex gap-2">
+        <!-- Add Sale Button -->
+        <button type="button" class="btn btn-success btn-sm" (click)="addSale()">
+          <i class="fa fa-plus me-2"></i>Add Sale
+        </button>
+        <!-- Export Dropdown -->
+        <div class="btn-group" ngbDropdown>
+          <button type="button" class="btn btn-primary btn-sm dropdown-toggle" ngbDropdownToggle>
+            <i class="fa fa-download me-2"></i>Export
+          </button>
+          <div ngbDropdownMenu class="dropdown-menu">
+            <button class="dropdown-item" (click)="exportToPDF()">
+              <i class="fa fa-file-pdf-o me-2"></i>Export to PDF
+            </button>
+            <button class="dropdown-item" (click)="exportToExcel()">
+              <i class="fa fa-file-excel-o me-2"></i>Export to Excel
+            </button>
+            <button class="dropdown-item" (click)="exportToCSV()">
+              <i class="fa fa-file-o me-2"></i>Export to CSV
+            </button>
+            <button class="dropdown-item" (click)="exportToDocx()">
+              <i class="fa fa-file-word-o me-2"></i>Export to Docx
+            </button>
+          </div>
+        </div>
+        <!-- Print Button -->
+        <button type="button" class="btn btn-secondary btn-sm" (click)="printSoldVehicles()">
+          <i class="fa fa-print me-2"></i>Print List
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loader -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary"></div>
+    <p>Loading sales...</p>
+  </div>
+
+  <!-- Sales Table -->
+  <div *ngIf="!loading && sales.length > 0" class="row">
+    <div class="col-12">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead class="text-center">
+            <tr style="background-color: grey;">
+              <th class="text-center">Date</th>
+              <th class="text-center">Lorry Number</th>
+              <th class="text-center">Weight (kg)</th>
+              <th class="text-center">Lorry Hire</th>
+              <th class="text-center">Commission</th>
+              <th class="text-center">Bility</th>
+              <th class="text-center">Payment Mode</th>
+              <th class="text-center">Petrol Pump</th>
+              <th class="text-center">Total Advance</th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sale of sales; trackBy: trackBySaleId">
+              <td class="text-center">{{ sale.date }}</td>
+              <td class="text-center">{{ sale.lorryNumber }}</td>
+              <td class="text-center">{{ sale.weight }}</td>
+              <td class="text-center">{{ sale.lorryHire }}</td>
+              <td class="text-center">{{ sale.commission }}</td>
+              <td class="text-center">{{ sale.bility }}</td>
+              <td class="text-center">{{ sale.paymentMode }}</td>
+              <td class="text-center">{{ sale.petrolPump }}</td>
+              <td class="text-center">{{ sale.totalAdvance }}</td>
+              <td class="text-center">
+                <button class="btn btn-sm btn-warning me-2" (click)="updateSale(sale)" title="Update">
+                  <i class="fa fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="deleteSale(sale)" title="Delete">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Data Message -->
+  <div *ngIf="!loading && sales.length === 0" class="text-center py-5">
+    <h4>No vehicle sales found.</h4>
+    <button class="btn btn-primary" (click)="addSale()">Add New Sale</button>
+  </div>
+
+</div>
+
+<!-- CONFIRMATION DIALOG -->
+<app-confirmation-dialog
+  [show]="showConfirmationDialog"
+  title="Delete Sale"
+  message="Are you sure you want to delete this vehicle sale? This action cannot be undone."
+  confirmButtonText="Delete"
+  cancelButtonText="Cancel"
+  confirmButtonClass="btn-danger"
+  (confirm)="onConfirmDelete()"
+  (cancel)="onCancelDelete()">
+</app-confirmation-dialog>
+
+<!-- SALE MODAL -->
+<app-sale-modal
+  [show]="showSaleModal"
+  [editMode]="editMode"
+  [saleData]="selectedSale"
+  (closeModal)="closeSaleModal()"
+  (refreshList)="loadSales()"
+  (saleSaved)="onSaleSaved($event)">
+</app-sale-modal>

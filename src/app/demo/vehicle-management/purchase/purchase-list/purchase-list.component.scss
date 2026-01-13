@@ -1,0 +1,42 @@
+// Purchase List Styles
+
+/* Dashboard-style title styling - exactly like Booked Vehicles page */
+.dashboard-style-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #000000;
+  text-shadow:
+    0 2px 4px rgba(30, 64, 175, 0.3),
+    0 0 15px rgba(30, 64, 175, 0.4);
+  letter-spacing: -0.5px;
+  font-family: 'Segoe UI Black', 'Segoe UI', 'Helvetica Neue', Impact, Arial, sans-serif;
+  margin-bottom: 15px;
+  display: inline-block;
+}
+
+.dashboard-style-title::before {
+  font-size: 1.8rem;
+  margin-right: 10px;
+  opacity: 0.8;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.961));
+}
+
+// Blue gradient header styling for table
+.table thead th {
+  background: linear-gradient(135deg, #007bff, #0056b3) !important;
+  color: white !important;
+  border: 1px solid #0056b3 !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 8px;
+}
+
+// Ensure table styling is consistent
+.table {
+  margin-bottom: 0;
+}
+
+.table tbody tr:hover {
+  background-color: #f8f9fa;
+}

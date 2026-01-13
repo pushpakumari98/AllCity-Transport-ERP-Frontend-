@@ -1,0 +1,101 @@
+<div class="page-container">
+  <div class="card">
+    <div class="card-header text-center">
+      <h5>Vehicle Purchase</h5>
+      <!-- View Purchases List Button in right corner -->
+      <div class="text-end">
+        <button type="button" class="btn btn-info" (click)="viewPurchasesList()">
+          <i class="fa fa-list"></i> View Purchases List
+        </button>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <form [formGroup]="purchaseForm" (ngSubmit)="onSubmit()">
+
+        <!-- 3 COLUMN GRID -->
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label> Date</label>
+            <input type="date" formControlName="date"
+              class="form-control" placeholder="date" />
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Vehicle Number</label>
+            <input formControlName="vehicleNo" class="form-control" placeholder="Enter Vehicle Number" />
+            <div *ngIf="purchaseForm.get('vehicleNo')?.invalid && purchaseForm.get('vehicleNo')?.touched" class="text-danger mt-1">
+              <small>Vehicle Number is required</small>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Booking Hire</label>
+            <input formControlName="bookingHire" class="form-control" placeholder="Enter Booking Hire" />
+            <div *ngIf="purchaseForm.get('bookingHire')?.invalid && purchaseForm.get('bookingHire')?.touched" class="text-danger mt-1">
+              <small>Booking Hire is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Booking Receiving Balance Date</label>
+            <input type="date" formControlName="bookingReceivingBalanceDate"
+              class="form-control" placeholder="Select Booking Receiving Balance Date" />
+            </div>
+
+          <div class="col-md-4 mb-3">
+            <label>From Location</label>
+            <input formControlName="fromLocation" class="form-control" placeholder="Enter From Location" />
+            <div *ngIf="purchaseForm.get('fromLocation')?.invalid && purchaseForm.get('fromLocation')?.touched" class="text-danger mt-1">
+              <small>From Location is required</small>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>To Location</label>
+            <input formControlName="toLocation" class="form-control" placeholder="Enter To Location" />
+            <div *ngIf="purchaseForm.get('toLocation')?.invalid && purchaseForm.get('toLocation')?.touched" class="text-danger mt-1">
+              <small>To Location is required</small>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Transport Name</label>
+            <input formControlName="transportName" class="form-control" placeholder="Enter Transport Name" />
+            <div *ngIf="purchaseForm.get('transportName')?.invalid && purchaseForm.get('transportName')?.touched" class="text-danger mt-1">
+              <small>Transport Name is required</small>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Detain</label>
+            <input formControlName="detain" class="form-control" placeholder="Enter Detain " />
+            <div *ngIf="purchaseForm.get('detain')?.invalid && purchaseForm.get('detain')?.touched" class="text-danger mt-1">
+              <small>Detain is required</small>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>POD Received Date</label>
+            <input type="date" formControlName="podReceivedDate"
+              class="form-control" placeholder="Select POD received date" />
+            </div>
+
+           <div class="row justify-content-center">
+  <div class="col-md-4 mb-3">
+    <label>Lorry Balance Paid Date</label>
+    <input
+      type="date"
+      formControlName="lorryBalancePaidDate"
+      class="form-control"
+      placeholder="Select balance paid date"
+    />
+  </div>
+</div>
+
+
+        </div>
+
+        <!-- SUBMIT BUTTON -->
+        <div class="d-flex justify-content-center mt-3">
+          <button type="submit" class="btn btn-primary px-5">Submit</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

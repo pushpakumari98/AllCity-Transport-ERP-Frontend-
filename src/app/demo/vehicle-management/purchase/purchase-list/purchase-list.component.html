@@ -1,0 +1,123 @@
+<div class="container-fluid">
+  <div class="row mb-4">
+    <div class="col-12 d-flex justify-content-between align-items-center">
+      <h2 class="mb-0 dashboard-style-title">Purchased vehicles</h2>
+
+      <!-- Buttons: Add Purchased Vehicle, Export, Print List -->
+      <div class="d-flex gap-2" *ngIf="!loading">
+        <!-- Add Purchased Vehicle Button -->
+        <button class="btn btn-success btn-sm" (click)="addPurchase()">
+          <i class="fa fa-plus me-2"></i>Add Purchased Vehicle
+        </button>
+        <!-- Export Dropdown -->
+        <div class="btn-group" ngbDropdown>
+          <button type="button" class="btn btn-primary btn-sm dropdown-toggle" ngbDropdownToggle>
+            <i class="fa fa-download me-2"></i>Export
+          </button>
+          <div ngbDropdownMenu class="dropdown-menu">
+            <button class="dropdown-item" (click)="exportToPDF()">
+              <i class="fa fa-file-pdf-o me-2"></i>Export to PDF
+            </button>
+            <button class="dropdown-item" (click)="exportToExcel()">
+              <i class="fa fa-file-excel-o me-2"></i>Export to Excel
+            </button>
+            <button class="dropdown-item" (click)="exportToCSV()">
+              <i class="fa fa-file-o me-2"></i>Export to CSV
+            </button>
+            <button class="dropdown-item" (click)="exportToDocx()">
+              <i class="fa fa-file-word-o me-2"></i>Export to Docx
+            </button>
+          </div>
+        </div>
+        <!-- Print Button -->
+        <button type="button" class="btn btn-secondary btn-sm" (click)="printPurchases()">
+          <i class="fa fa-print me-2"></i>Print List
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loader -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary"></div>
+    <p>Loading purchases...</p>
+  </div>
+
+  <!-- Purchases Table -->
+  <div *ngIf="!loading && purchases.length > 0" class="row">
+    <div class="col-12">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead class="text-center">
+            <tr style="background-color: grey;">
+              <th class="text-center">Sl. No</th>
+              <th class="text-center">Date</th>
+              <th class="text-center">Vehicle No</th>
+              <th class="text-center">Booking Hire</th>
+              <th class="text-center">Booking Receiving Balance Date</th>
+              <th class="text-center">From Location</th>
+              <th class="text-center">To Location</th>
+              <th class="text-center">Transport Name</th>
+              <th class="text-center">Detain</th>
+              <th class="text-center">POD Received Date</th>
+              <th class="text-center">Lorry Balance Paid Date</th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let purchase of purchases; trackBy: trackByPurchaseId">
+              <td class="text-center">{{ purchase.slNo }}</td>
+              <td class="text-center">{{ purchase.date }}</td>
+              <td class="text-center">{{ purchase.vehicleNo }}</td>
+              <td class="text-center">{{ purchase.bookingHire }}</td>
+              <td class="text-center">{{ purchase.bookingReceivingBalanceDate }}</td>
+              <td class="text-center">{{ purchase.fromLocation }}</td>
+              <td class="text-center">{{ purchase.toLocation }}</td>
+              <td class="text-center">{{ purchase.transportName }}</td>
+              <td class="text-center">{{ purchase.detain }}</td>
+              <td class="text-center">{{ purchase.podReceivedDate }}</td>
+              <td class="text-center">{{ purchase.lorryBalancePaidDate }}</td>
+              <td class="text-center">
+                <button class="btn btn-sm btn-warning me-1" (click)="updatePurchase(purchase)" title="Update">
+                  <i class="fa fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="deletePurchase(purchase)" title="Delete">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Data Message -->
+  <div *ngIf="!loading && purchases.length === 0" class="text-center py-5">
+    <h4>No vehicle purchases found.</h4>
+    <button class="btn btn-primary" (click)="addPurchase()">Add New Purchase</button>
+  </div>
+
+</div>
+
+<!-- CONFIRMATION DIALOG -->
+<app-confirmation-dialog
+  [show]="showConfirmationDialog"
+  title="Delete Purchase"
+  message="Are you sure you want to delete this vehicle purchase? This action cannot be undone."
+  confirmButtonText="Delete"
+  cancelButtonText="Cancel"
+  confirmButtonClass="btn-danger"
+  (confirm)="onConfirmDelete()"
+  (cancel)="onCancelDelete()">
+</app-confirmation-dialog>
+
+<!-- PURCHASE MODAL -->
+<app-purchase-modal
+  [show]="showPurchaseModal"
+  [editMode]="editMode"
+  [purchaseData]="selectedPurchase"
+  (closeModal)="closePurchaseModal()"
+  (refreshList)="loadPurchases()"
+  (purchaseSaved)="onPurchaseSaved($event)">
+</app-purchase-modal>

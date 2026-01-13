@@ -1,0 +1,123 @@
+<ul class="navbar-nav">
+  <li>
+    <div class="dropdown" ngbDropdown placement="auto">
+      <a ngbDropdownToggle href="javascript:" data-toggle="dropdown" class="notification-bell">
+        <i class="icon feather icon-bell"></i>
+        <span class="notification-badge" *ngIf="getUnreadCount() > 0">{{ getUnreadCount() }}</span>
+      </a>
+      <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end notification">
+        <div class="notification-head">
+          <h6 class="d-inline-block m-b-0">Notifications</h6>
+          <div class="float-end">
+            <a href="javascript:" class="m-r-10 text-decoration-none" (click)="markAllAsRead()">mark as read</a>
+            <a href="javascript:" class="text-decoration-none" (click)="clearAll()">clear all</a>
+          </div>
+        </div>
+        <ul class="notification-body">
+          <!-- New Notifications -->
+          <li class="n-title" *ngIf="getUnreadCount() > 0">
+            <p class="m-b-0">NEW ({{ getUnreadCount() }})</p>
+          </li>
+          <li class="notification" *ngFor="let notification of notifications.slice(0, 10); trackBy: trackByNotification">
+            <div class="d-flex" [class.unread]="!notification.read">
+              <div class="notification-icon">
+                <i [class]="notification.icon"></i>
+              </div>
+              <div class="flex-grow-1">
+                <p>
+                  <strong>{{ notification.title }}</strong>
+                  <span class="n-time text-muted">
+                    <i class="icon feather icon-clock m-r-10"></i>
+                    {{ formatTimeAgo(notification.timestamp) }}
+                  </span>
+                </p>
+                <p>{{ notification.message }}</p>
+                <button *ngIf="!notification.read"
+                        (click)="markAsRead(notification.id)"
+                        class="btn btn-sm btn-link text-decoration-none">
+                  Mark as read
+                </button>
+              </div>
+              <div class="notification-status" [class]="getNotificationTypeClass(notification.type)">
+                <i class="icon feather" [class]="getTypeIcon(notification.type)"></i>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <div class="notification-footer">
+          <p *ngIf="notifications.length === 0" class="text-center mb-0">
+            <i class="feather icon-bell-off"></i><br>
+            No notifications
+          </p>
+          <p *ngIf="notifications.length > 0" class="text-center mb-0">
+            Showing {{ notifications.slice(0, 10).length }} of {{ notifications.length }} notifications
+          </p>
+        </div>
+      </div>
+    </div>
+  </li>
+  <li>
+    <div class="dropdown drp-user" ngbDropdown placement="auto">
+      <a href="javascript:" ngbDropdownToggle data-toggle="dropdown">
+        <i class="icon feather icon-settings"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-end profile-notification" ngbDropdownMenu>
+        <div class="pro-head">
+          <img src="assets/images/user/avatar-1.jpg" class="img-radius" alt="User-Profile-Image" />
+          <span>Admin</span>
+          <a href="javascript:" class="dud-logout" title="Logout" (click)="logout()">
+            <i class="feather icon-log-out"></i>
+          </a>
+        </div>
+        <ul class="pro-body">
+          <li>
+            <a href="javascript:" class="dropdown-item" (click)="openSettings()">
+              <i class="feather icon-settings"></i>
+              Settings
+            </a>
+          </li>
+          <li>
+            <div class="dropdown-item">
+              <i class="feather icon-moon"></i>
+              Theme
+              <label class="switch ms-3">
+                <input type="checkbox" [checked]="currentTheme === 'dark'" (change)="toggleTheme()">
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </li>
+          <li>
+            <a href="javascript:" class="dropdown-item" (click)="openProfile()">
+              <i class="feather icon-user"></i>
+              Profile
+            </a>
+          </li>
+          <li>
+            <a href="javascript:" class="dropdown-item" (click)="openMessages()">
+              <i class="feather icon-mail"></i>
+              My Messages
+            </a>
+          </li>
+          <li>
+            <a href="javascript:" class="dropdown-item" (click)="lockScreen()">
+              <i class="feather icon-lock"></i>
+              Lock Screen
+            </a>
+          </li>
+          <li>
+            <a href="javascript:" class="dropdown-item">
+              <i class="feather icon-user"></i>
+              Switch to User
+            </a>
+          </li>
+          <li>
+            <a href="javascript:" class="dropdown-item">
+              <i class="feather icon-briefcase"></i>
+              Switch to Manager
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </li>
+</ul>

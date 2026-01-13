@@ -1,0 +1,74 @@
+<!-- SALE MODAL -->
+<div class="modal fade" [class.show]="show" [style.display]="show ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ editMode ? 'Edit' : 'Add' }} Vehicle Sale</h5>
+        <button type="button" class="btn-close" (click)="close()" aria-label="Close"></button>
+      </div>
+      <form [formGroup]="saleForm" (ngSubmit)="saveSale()">
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label for="vehicleId">Vehicle ID</label>
+              <input type="text" id="vehicleId" formControlName="vehicleId" class="form-control" placeholder="Enter Vehicle ID" />
+            </div>
+
+            <div class="col-md-4">
+              <label for="date">Date</label>
+              <input type="date" id="date" formControlName="date" class="form-control" />
+            </div>
+
+            <div class="col-md-4">
+              <label for="lorryNumber">Lorry Number</label>
+              <input type="text" id="lorryNumber" formControlName="lorryNumber" class="form-control" placeholder="Enter Lorry Number" />
+            </div>
+
+            <div class="col-md-4">
+              <label for="weight">Weight</label>
+              <input type="number" id="weight" formControlName="weight" class="form-control" step="1" />
+            </div>
+
+            <div class="col-md-4">
+              <label for="lorryHire">Lorry Hire</label>
+              <input type="number" id="lorryHire" formControlName="lorryHire" class="form-control" step="1" />
+            </div>
+
+            <div class="col-md-4">
+              <label for="commission">Commission</label>
+              <input type="number" id="commission" formControlName="commission" class="form-control" step="1" />
+            </div>
+
+            <div class="col-md-4">
+              <label for="bility">Bility</label>
+              <input type="number" id="bility" formControlName="bility" class="form-control" step="1" />
+            </div>
+
+            <div class="col-md-4">
+              <label for="paymentMode">Payment Mode</label>
+              <select id="paymentMode" formControlName="paymentMode" class="form-control">
+                <option *ngFor="let mode of paymentModes" [value]="mode">{{ mode }}</option>
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label for="petrolPump">Petrol Pump</label>
+              <input type="text" id="petrolPump" formControlName="petrolPump" class="form-control" placeholder="Petrol Pump Name" />
+            </div>
+
+            <div class="col-md-4">
+              <label for="totalAdvance">Total Advance</label>
+              <input type="number" id="totalAdvance" formControlName="totalAdvance" class="form-control" step="1" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="saleForm.invalid">{{ editMode ? 'Update' : 'Save' }} Sale</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="show" class="modal-backdrop fade show"></div>

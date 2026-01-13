@@ -1,0 +1,181 @@
+<div class="container">
+  <div class="row mb-4">
+    <div class="col-12 text-center">
+      <h2 class="mb-3" style="color: black;">Employee Reports</h2>
+
+      <!-- Export and Print Buttons - Just below the employee report title -->
+      <div *ngIf="!loading" class="d-flex justify-content-center gap-2 mt-3">
+        <!-- Export Button - Single dropdown with all export options -->
+        <div class="btn-group" ngbDropdown>
+          <button type="button" class="btn btn-primary btn-sm dropdown-toggle" ngbDropdownToggle>
+            <i class="fa fa-download me-2"></i>Export
+          </button>
+          <div ngbDropdownMenu class="dropdown-menu">
+            <button class="dropdown-item" (click)="exportToPDF()">
+              <i class="fa fa-file-pdf-o me-2"></i>PDF
+            </button>
+            <button class="dropdown-item" (click)="exportToCSV()">
+              <i class="fa fa-file-o me-2"></i>CSV
+            </button>
+            <button class="dropdown-item" (click)="exportToExcel()">
+              <i class="fa fa-file-excel-o me-2"></i>Excel
+            </button>
+            <button class="dropdown-item" (click)="exportToDocx()">
+              <i class="fa fa-file-word-o me-2"></i>Docs
+            </button>
+          </div>
+        </div>
+
+        <!-- Print Report Button -->
+        <button type="button" class="btn btn-secondary btn-sm" (click)="printEmployees()">
+          <i class="fa fa-print me-2"></i>Print Report
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="row mb-4">
+    <div class="col-md-3 mb-3">
+      <div class="card bg-info text-white">
+        <div class="card-body text-center">
+          <h5 class="card-title">Today</h5>
+          <h2>{{ todayEmployees }}</h2>
+          <p class="mb-0">Employees</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card bg-success text-white">
+        <div class="card-body text-center">
+          <h5 class="card-title">This Week</h5>
+          <h2>{{ weekEmployees }}</h2>
+          <p class="mb-0">Employees</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card bg-warning text-white">
+        <div class="card-body text-center">
+          <h5 class="card-title">This Month</h5>
+          <h2>{{ monthEmployees }}</h2>
+          <p class="mb-0">Employees</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card bg-danger text-white">
+        <div class="card-body text-center">
+          <h5 class="card-title">This Year</h5>
+          <h2>{{ yearEmployees }}</h2>
+          <p class="mb-0">Employees</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Controls -->
+  <div class="row mb-3 justify-content-center">
+    <div class="col-md-6">
+      <label for="filterSelect">Filter Employees:</label>
+      <select id="filterSelect" class="form-control" [(ngModel)]="selectedFilter" (change)="onFilterChange()">
+        <option *ngFor="let option of filterOptions" [value]="option.value">{{ option.label }}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Loader -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary"></div>
+    <p>Loading employee reports...</p>
+  </div>
+
+  <!-- EMPLOYEE LIST VIEW -->
+  <div class="row">
+    <!-- EMPLOYEES SECTION -->
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped mb-0" *ngIf="filteredEmployees.length > 0">
+              <thead style="background-color: #007bff; color: white;">
+                <tr>
+                  <th class="text-center">Sl.No</th>
+                  <th class="text-center">Employee Name</th>
+                  <th class="text-center">Contact Number</th>
+                  <th class="text-center">Email</th>
+                  <th class="text-center">Date of Joining</th>
+                  <th class="text-center">Designation</th>
+                  <th class="text-center">Role</th>
+                  <th class="text-center">Department</th>
+                  <th class="text-center">Qualification Document</th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let emp of filteredEmployees; let i = index">
+                  <td class="text-center">{{ i + 1 }}</td>
+                  <td class="text-center">{{ emp.name }}</td>
+                  <td class="text-center">{{ emp.contactNo }}</td>
+                  <td class="text-center">{{ emp.email }}</td>
+                  <td class="text-center">{{ emp.dateOfJoining | date:'dd/MM/yyyy' }}</td>
+                  <td class="text-center">{{ emp.designation }}</td>
+                  <td class="text-center">{{ emp.role }}</td>
+                  <td class="text-center">{{ getDepartmentName(emp.departmentId) }}</td>
+
+                  <td class="text-center">
+                    <span *ngIf="emp.qualificationDocument" class="badge bg-success">
+                      <i class="fa fa-file me-1"></i>Uploaded
+                    </span>
+                    <span *ngIf="!emp.qualificationDocument" class="badge bg-secondary">
+                      <i class="fa fa-times me-1"></i>Not Uploaded
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <button class="btn btn-sm btn-warning me-2"
+                            (click)="editEmployee(emp)"
+                            title="Edit">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger"
+                            (click)="deleteEmployee(emp)"
+                            title="Delete">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div *ngIf="filteredEmployees.length === 0" class="text-center py-4" style="background-color: #fcf9ff; border-radius: 0 0 5px 5px;">
+            <p class="text-muted mb-2">No employees found.</p>
+            <small class="text-muted">Employees added will appear here.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- CONFIRMATION DIALOG -->
+<app-confirmation-dialog
+  [show]="showConfirmationDialog"
+  title="Delete Employee"
+  message="Are you sure you want to delete this employee record? This action cannot be undone."
+  confirmButtonText="Delete"
+  cancelButtonText="Cancel"
+  confirmButtonClass="btn-danger"
+  (confirm)="onConfirmDelete()"
+  (cancel)="onCancelDelete()">
+</app-confirmation-dialog>
+
+<!-- EMPLOYEE MODAL -->
+<app-employee-modal
+  [show]="showEmployeeModal"
+  [editMode]="employeeModalEditMode"
+  [employeeData]="selectedEmployeeForModal"
+  [userType]="selectedEmployeeForModal?.role || 'Employee'"
+  (closeModal)="closeEmployeeModal()"
+  (employeeSaved)="onEmployeeModalSaved($event)">
+</app-employee-modal>

@@ -1,0 +1,86 @@
+<div class="page-container">
+  <div class="card">
+    <div class="card-header text-center">
+      <h5>Cash Payment</h5>
+      <div class="text-muted small">Record cash payment for vehicle sale</div>
+    </div>
+
+    <div class="card-body">
+      <!-- Sale Summary -->
+      <div class="sale-summary mb-4">
+        <h6 class="text-primary">Sale Summary</h6>
+        <div class="row">
+          <div class="col-md-6">
+            <p><strong>Vehicle:</strong> {{ saleData?.lorryNumber }}</p>
+            <p><strong>Date:</strong> {{ saleData?.date | date:'dd-MM-yyyy' }}</p>
+            <p><strong>Weight:</strong> {{ saleData?.weight }} kg</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Lorry Hire:</strong> ₹{{ saleData?.lorryHire }}</p>
+            <p><strong>Commission:</strong> ₹{{ saleData?.commission }}</p>
+            <p><strong>Bility:</strong> ₹{{ saleData?.bility }}</p>
+            <p><strong>Advance Paid:</strong> ₹{{ saleData?.totalAdvance }}</p>
+          </div>
+        </div>
+        <hr>
+        <div class="text-end">
+          <h5 class="text-success">Total Amount: ₹{{ cashForm.get('receivedAmount')?.value }}</h5>
+        </div>
+      </div>
+
+      <!-- Cash Payment Form -->
+      <form [formGroup]="cashForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label>Received Amount *</label>
+            <input
+              type="number"
+              formControlName="receivedAmount"
+              class="form-control"
+              placeholder="Enter payment amount"
+              [class.is-invalid]="cashForm.get('receivedAmount')?.invalid && cashForm.get('receivedAmount')?.touched"
+            />
+            <div *ngIf="cashForm.get('receivedAmount')?.invalid && cashForm.get('receivedAmount')?.touched" class="text-danger mt-1">
+              <small>Amount must be greater than 0</small>
+            </div>
+            <small class="text-muted">Auto-calculated from sale data, but you can modify if needed</small>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Received By *</label>
+            <input
+              type="text"
+              formControlName="receivedBy"
+              class="form-control"
+              placeholder="Enter receiver's name"
+              [class.is-invalid]="cashForm.get('receivedBy')?.invalid && cashForm.get('receivedBy')?.touched"
+            />
+            <div *ngIf="cashForm.get('receivedBy')?.invalid && cashForm.get('receivedBy')?.touched" class="text-danger mt-1">
+              <small>Receiver's name is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-12 mb-3">
+            <label>Notes</label>
+            <textarea
+              formControlName="notes"
+              class="form-control"
+              rows="3"
+              placeholder="Any additional notes about the cash payment"
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="text-center">
+          <button type="button" class="btn btn-secondary me-2" (click)="cancelPayment()">
+            <i class="fa fa-arrow-left"></i> Back to Sale
+          </button>
+          <button type="submit" class="btn btn-success" [disabled]="cashForm.invalid">
+            <i class="fa fa-money"></i> Record Cash Payment
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

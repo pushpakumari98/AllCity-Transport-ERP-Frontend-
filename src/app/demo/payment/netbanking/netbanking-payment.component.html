@@ -1,0 +1,111 @@
+<div class="page-container">
+  <div class="card">
+    <div class="card-header text-center">
+      <h5>Net Banking Payment</h5>
+      <div class="text-muted small">Secure online banking payment for vehicle sale</div>
+    </div>
+
+    <div class="card-body">
+      <!-- Sale Summary -->
+      <div class="sale-summary mb-4">
+        <h6 class="text-primary">Sale Summary</h6>
+        <div class="row">
+          <div class="col-md-6">
+            <p><strong>Vehicle:</strong> {{ saleData?.lorryNumber }}</p>
+            <p><strong>Date:</strong> {{ saleData?.date | date:'dd-MM-yyyy' }}</p>
+            <p><strong>Weight:</strong> {{ saleData?.weight }} kg</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Lorry Hire:</strong> ₹{{ saleData?.lorryHire }}</p>
+            <p><strong>Commission:</strong> ₹{{ saleData?.commission }}</p>
+            <p><strong>Bility:</strong> ₹{{ saleData?.bility }}</p>
+            <p><strong>Advance Paid:</strong> ₹{{ saleData?.totalAdvance }}</p>
+          </div>
+        </div>
+        <hr>
+        <div class="text-end">
+          <h5 class="text-success">Total Amount: ₹{{ netbankingForm.get('amount')?.value }}</h5>
+        </div>
+      </div>
+
+      <!-- Net Banking Form -->
+      <form [formGroup]="netbankingForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label>Select Bank *</label>
+            <select
+              formControlName="bankName"
+              class="form-control"
+              [class.is-invalid]="netbankingForm.get('bankName')?.invalid && netbankingForm.get('bankName')?.touched"
+            >
+              <option [ngValue]="null">-- Choose Your Bank --</option>
+              <option *ngFor="let bank of banks" [ngValue]="bank">{{ bank }}</option>
+            </select>
+            <div *ngIf="netbankingForm.get('bankName')?.invalid && netbankingForm.get('bankName')?.touched" class="text-danger mt-1">
+              <small>Please select a bank</small>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Username *</label>
+            <input
+              type="text"
+              formControlName="username"
+              class="form-control"
+              placeholder="Bank username/customer ID"
+              [class.is-invalid]="netbankingForm.get('username')?.invalid && netbankingForm.get('username')?.touched"
+            />
+            <div *ngIf="netbankingForm.get('username')?.invalid && netbankingForm.get('username')?.touched" class="text-danger mt-1">
+              <small>Username is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Password *</label>
+            <input
+              type="password"
+              formControlName="password"
+              class="form-control"
+              placeholder="Bank login password"
+              [class.is-invalid]="netbankingForm.get('password')?.invalid && netbankingForm.get('password')?.touched"
+            />
+            <div *ngIf="netbankingForm.get('password')?.invalid && netbankingForm.get('password')?.touched" class="text-danger mt-1">
+              <small>Password is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Amount *</label>
+            <input
+              type="number"
+              formControlName="amount"
+              class="form-control"
+              placeholder="Enter payment amount"
+              [class.is-invalid]="netbankingForm.get('amount')?.invalid && netbankingForm.get('amount')?.touched"
+            />
+            <div *ngIf="netbankingForm.get('amount')?.invalid && netbankingForm.get('amount')?.touched" class="text-danger mt-1">
+              <small>Amount must be greater than 0</small>
+            </div>
+            <small class="text-muted">Auto-calculated from sale data, but you can modify if needed</small>
+          </div>
+        </div>
+
+        <!-- Security Notice -->
+        <div class="alert alert-info mb-4">
+          <i class="fa fa-shield"></i>
+          <strong>Secure Connection:</strong> Your banking details are encrypted and secure. We do not store your bank credentials.
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="text-center">
+          <button type="button" class="btn btn-secondary me-2" (click)="cancelPayment()">
+            <i class="fa fa-arrow-left"></i> Back to Sale
+          </button>
+          <button type="submit" class="btn btn-success" [disabled]="netbankingForm.invalid">
+            <i class="fa fa-university"></i> Pay via Net Banking
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

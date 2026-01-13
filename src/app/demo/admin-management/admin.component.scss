@@ -1,0 +1,16 @@
+.modal {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal.fade.show.d-block {
+  display: block;
+  z-index: 1050;
+}
+
+// Style table header with gray background
+.table thead th {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: #ffffff;
+  border-color: #dee2e6;
+  font-weight: 500;
+}

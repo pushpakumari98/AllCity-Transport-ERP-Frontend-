@@ -1,0 +1,17 @@
+.b-brand .b-bg {
+  background: #ffffff !important;     /* or any color */
+  width: 55px;
+  height: 45px;
+  border-radius: 10%;                  /* Makes it a circle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;                    /* Ensures image stays inside */
+  box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Optional */
+}
+
+.b-brand .b-bg .header-logo-img {
+  width: 80%;
+  height: 70%;
+  object-fit: cover;
+}

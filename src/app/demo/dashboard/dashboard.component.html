@@ -1,0 +1,193 @@
+<!-- Dashboard Statistics -->
+<div class="stats-section">
+  <div class="container-fluid">
+    <div class="row g-4">
+      <div class="col-md-4" *ngFor="let item of statusCards">
+        <div class="stats-card {{ item.cardClass }}">
+          <div class="card-icon">
+            <i class="feather {{ item.icon }}"></i>
+          </div>
+          <div class="card-content">
+            <h3 class="stat-number">{{ item.amount }}</h3>
+            <p class="stat-title">{{ item.title }}</p>
+            <div class="progress">
+              <div class="progress-bar {{ item.bg }}"
+                   [style.width.%]="item.progress"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VEHICLE SHOWCASE REMOVED -->
+
+<!-- Quick Actions -->
+<div class="quick-actions">
+  <div class="container-fluid">
+    <h4 class="section-title">⚡ Quick Actions</h4>
+    <div class="actions-grid">
+      <button *ngFor="let action of quickActions"
+              class="btn action-btn {{ action.color }} me-md-2 mb-2"
+              routerLink="{{ action.url }}">
+        <i class="feather {{ action.icon }} me-2"></i>
+        {{ action.title }}
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="row g-4">
+  <!-- Task Completion Trends -->
+  <div class="col-md-8">
+    <div class="card p-4 shadow-sm">
+      <h4 class="mb-0">Task Completion Trends</h4>
+      <p class="text-muted">Weekly progress overview</p>
+      <canvas id="taskChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Vehicle Summary Donut Chart -->
+  <div class="col-md-4">
+    <div class="card p-4 shadow-sm">
+      <h4 class="mb-0">Vehicle Summary</h4>
+      <p class="text-muted">Status overview</p>
+      <canvas id="vehicleChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- Recent Activities -->
+<div class="row g-4">
+  <!-- Recent Activities Feed -->
+  <div class="col-12">
+    <div class="card p-4 shadow-sm">
+      <h4 class="mb-3">📋 Recent Activities</h4>
+      <div class="activity-feed">
+        <div class="activity-item" *ngFor="let activity of recentActivities">
+          <div class="activity-icon">
+            <i class="feather {{ activity.icon }} {{ activity.color }}"></i>
+          </div>
+          <div class="activity-content">
+            <p class="mb-1">{{ activity.message }}</p>
+            <small class="text-muted">{{ activity.time }}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Fuel Consumption & Maintenance Alerts -->
+<div class="row g-4">
+  <!-- Fuel Consumption Gauge -->
+  <div class="col-md-6">
+    <div class="card p-4 shadow-sm">
+      <h4 class="mb-3">⛽ Fuel Consumption</h4>
+      <div class="fuel-widget">
+        <div class="fuel-gauge">
+          <div class="gauge-container">
+            <svg class="gauge-svg" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="50" fill="none" stroke="#e9ecef" stroke-width="10"/>
+              <circle cx="60" cy="60" r="50" fill="none" stroke="#28a745" stroke-width="10"
+                      stroke-dasharray="314"
+                      [attr.stroke-dashoffset]="314 - (fuelData.currentEfficiency * 314 / 100)"
+                      transform="rotate(-90 60 60)"/>
+            </svg>
+            <div class="gauge-center">
+              <div class="efficiency-value">{{ fuelData.currentEfficiency }}%</div>
+              <small class="text-muted">Efficiency</small>
+            </div>
+          </div>
+        </div>
+        <div class="fuel-stats">
+          <div class="stat-item">
+            <span class="stat-label">Fuel Saved:</span>
+            <span class="stat-value text-success">{{ fuelData.fuelSaved }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Cost Saved:</span>
+            <span class="stat-value text-success">{{ fuelData.costSaved }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Monthly Usage:</span>
+            <span class="stat-value">{{ fuelData.monthlyConsumption }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Maintenance Alerts -->
+  <div class="col-md-6">
+    <div class="card p-4 shadow-sm">
+      <h4 class="mb-3">🔧 Maintenance Alerts</h4>
+      <div class="maintenance-alerts">
+        <div class="alert-item" *ngFor="let alert of maintenanceAlerts"
+             [ngClass]="{'high-priority': alert.priority === 'high', 'medium-priority': alert.priority === 'medium', 'low-priority': alert.priority === 'low'}">
+          <div class="alert-icon">
+            <i class="feather icon-wrench"></i>
+          </div>
+          <div class="alert-content">
+            <h6>{{ alert.vehicle }}</h6>
+            <p class="mb-1">{{ alert.type }}</p>
+            <small class="due-date">Due in: {{ alert.dueIn }}</small>
+          </div>
+          <div class="priority-indicator" [ngClass]="alert.priority"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Driver Performance -->
+<div class="row g-4">
+  <!-- Driver Performance -->
+  <div class="col-12">
+    <div class="card p-4 shadow-sm">
+      <h4 class="mb-3">🚗 Top Drivers</h4>
+      <div class="driver-performance">
+        <div class="driver-item" *ngFor="let driver of topDrivers">
+          <div class="driver-avatar">
+            <i class="feather icon-user"></i>
+          </div>
+          <div class="driver-info">
+            <h6 class="driver-name">{{ driver.name }}</h6>
+            <div class="driver-stats">
+              <span class="rating">⭐ {{ driver.rating }}</span>
+              <span class="deliveries">{{ driver.deliveries }} deliveries</span>
+              <span class="efficiency">{{ driver.efficiency }} efficiency</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- System Alerts -->
+<div class="row g-4">
+  <div class="col-12">
+    <div class="card p-4 shadow-sm">
+      <h4 class="mb-3">🔔 System Alerts</h4>
+      <div class="system-alerts">
+        <div class="alert-card" *ngFor="let alert of systemAlerts"
+             [ngClass]="{'warning-alert': alert.type === 'warning', 'info-alert': alert.type === 'info', 'success-alert': alert.type === 'success'}">
+          <div class="alert-icon">
+            <i class="feather"
+               [ngClass]="{'icon-alert-triangle': alert.type === 'warning', 'icon-info': alert.type === 'info', 'icon-check-circle': alert.type === 'success'}"></i>
+          </div>
+          <div class="alert-content">
+            <p class="mb-0">{{ alert.message }}</p>
+          </div>
+          <div class="alert-count" *ngIf="alert.count > 0">
+            <span class="count-badge">{{ alert.count }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

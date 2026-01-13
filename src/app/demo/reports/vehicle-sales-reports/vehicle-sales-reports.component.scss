@@ -1,0 +1,126 @@
+/* Vehicle Sales Reports Styles */
+
+.card {
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+  border: none;
+}
+
+.card-title {
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.form-select {
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  padding: 0.5rem 1rem;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.table {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+  margin-bottom: 0;
+}
+
+.table thead th {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  border: none;
+  font-weight: 600;
+  text-align: center;
+  vertical-align: middle;
+  padding: 12px 8px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.table tbody td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 10px 8px;
+  font-size: 0.85rem;
+  border-color: #e9ecef;
+}
+
+.table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Stats cards enhancements */
+.card.bg-primary .card-body,
+.card.bg-success .card-body,
+.card.bg-warning .card-body,
+.card.bg-purple .card-body {
+  border-radius: 8px;
+}
+
+.card.bg-primary {
+  background: linear-gradient(135deg, #007bff, #138496) !important;
+}
+
+.card.bg-success {
+  background: linear-gradient(135deg, #28a745, #1e7e34) !important;
+}
+
+.card.bg-warning {
+  background: linear-gradient(135deg, #ffc107, #e0a800) !important;
+}
+
+.card.bg-purple {
+  background: linear-gradient(135deg, #6f42c1, #5a359a) !important;
+}
+
+h2 {
+  color: #ffffff;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Loading spinner enhancement */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* Filter section styling */
+.mb-4 {
+  margin-bottom: 1.5rem !important;
+}
+
+/* No data message */
+.py-5 {
+  padding-top: 3rem !important;
+  padding-bottom: 3rem !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .card-body {
+    padding: 1rem;
+  }
+
+  .table th, .table td {
+    padding: 6px 4px;
+    font-size: 0.8rem;
+  }
+
+  .table-responsive {
+    -webkit-overflow-scrolling: touch;
+  }
+}

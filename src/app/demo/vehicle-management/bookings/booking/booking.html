@@ -1,0 +1,182 @@
+<div class="page-container">
+  <div class="card">
+    <div class="card-header text-center">
+      <h5>Add Vehicle Booking</h5>
+      <div class="text-end">
+        <button type="button" class="btn btn-info" (click)="viewBookedVehicles()">
+          <i class="fa fa-list"></i> View Booked Vehicles List
+        </button>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+
+        <div class="row">
+
+          <!-- Booking Date -->
+          <div class="col-md-4 mb-3">
+            <label>Booking Date *</label>
+            <input type="date" formControlName="bookingDate"
+              class="form-control" placeholder="Select booking date" />
+            <div *ngIf="bookingForm.get('bookingDate')?.invalid && bookingForm.get('bookingDate')?.touched"
+                 class="text-danger mt-1">
+              <small>Booking date is required</small>
+            </div>
+          </div>
+            <!-- Booking Received Date -->
+          <div class="col-md-4 mb-3">
+            <label>Booking Received Date</label>
+            <input type="date" formControlName="bookingReceivedDate"
+              class="form-control" placeholder="Select received date" />
+          </div>
+
+           <!-- Lorry Balance Paid Date -->
+          <div class="col-md-4 mb-3">
+            <label>Lorry Balance Paid Date</label>
+            <input type="date" formControlName="lorryBalancePaidDate"
+              class="form-control" placeholder="Select balance paid date" />
+          </div>
+           <!-- Started From -->
+          <div class="col-md-4 mb-3">
+            <label>Started From *</label>
+            <input formControlName="startedFrom"
+              class="form-control" placeholder="Enter starting location" />
+            <div *ngIf="bookingForm.get('startedFrom')?.invalid && bookingForm.get('startedFrom')?.touched"
+                 class="text-danger mt-1">
+              <small>Starting location is required</small>
+            </div>
+          </div>
+
+          <!-- Destination -->
+          <div class="col-md-4 mb-3">
+            <label>Destination *</label>
+            <input formControlName="destination"
+              class="form-control" placeholder="Enter destination" />
+            <div *ngIf="bookingForm.get('destination')?.invalid && bookingForm.get('destination')?.touched"
+                 class="text-danger mt-1">
+              <small>Destination is required</small>
+            </div>
+          </div>
+
+          <!-- Vehicle Type -->
+          <div class="col-md-4 mb-3">
+            <label>Vehicle Type *</label>
+            <select formControlName="vehicleType" class="form-control">
+              <option value="" disabled selected>Select vehicle type</option>
+              <option *ngFor="let type of vehicleTypeOptions" [value]="type">{{ type }}</option>
+            </select>
+            <div *ngIf="bookingForm.get('vehicleType')?.invalid && bookingForm.get('vehicleType')?.touched"
+                 class="text-danger mt-1">
+              <small>Vehicle type is required</small>
+            </div>
+          </div>
+
+          <!-- Vehicle Number -->
+          <div class="col-md-4 mb-3">
+            <label>Vehicle Number *</label>
+            <input formControlName="vehicleNo"
+              class="form-control" placeholder="Enter vehicle number" />
+            <div *ngIf="bookingForm.get('vehicleNo')?.invalid && bookingForm.get('vehicleNo')?.touched"
+                 class="text-danger mt-1">
+              <small>Vehicle number is required</small>
+            </div>
+          </div>
+
+           <div class="col-md-4 mb-3">
+            <label>Vehicle Status *</label>
+            <select formControlName="vehicleStatus" class="form-control">
+              <option value="" disabled selected>Select vehicle status</option>
+              <option *ngFor="let status of vehicleStatusOptions" [value]="status">{{ status }}</option>
+            </select>
+            <div *ngIf="bookingForm.get('vehicleStatus')?.invalid && bookingForm.get('vehicleStatus')?.touched"
+                 class="text-danger mt-1">
+              <small>Vehicle status is required</small>
+            </div>
+          </div>
+
+                  <!-- Booking Status -->
+          <div class="col-md-4 mb-3">
+            <label>Booking Status *</label>
+            <select formControlName="bookingStatus" class="form-control">
+              <option value="" disabled selected>Select booking status</option>
+              <option *ngFor="let status of bookingStatusOptions" [value]="status">{{ status }}</option>
+            </select>
+            <div *ngIf="bookingForm.get('bookingStatus')?.invalid && bookingForm.get('bookingStatus')?.touched"
+                 class="text-danger mt-1">
+              <small>Booking status is required</small>
+            </div>
+          </div>
+
+                    <!-- Driver Name -->
+          <div class="col-md-4 mb-3">
+            <label>Driver Name</label>
+            <input formControlName="driverName"
+              class="form-control" placeholder="Enter driver name" />
+          </div>
+
+               <!-- Hire Amount -->
+          <div class="col-md-4 mb-3">
+            <label>Hire Amount</label>
+            <input type="number" formControlName="bookingHire"
+              class="form-control" placeholder="Enter hire amount" />
+          </div>
+
+          <!-- Advance -->
+          <div class="col-md-4 mb-3">
+            <label>Advance</label>
+            <input type="number" formControlName="bookingAdvance"
+              class="form-control" placeholder="Enter advance amount" />
+          </div>
+
+             <!-- Balance -->
+          <div class="col-md-4 mb-3">
+            <label>Balance</label>
+            <input type="number" formControlName="bookingBalance"
+              class="form-control" placeholder="Remaining balance" />
+          </div>
+
+          <!-- Detain -->
+          <div class="col-md-4 mb-3">
+            <label>Detain Info</label>
+            <input formControlName="detain"
+              class="form-control" placeholder="Enter detain details (if any)" />
+          </div>
+
+          <!-- POD Received -->
+          <div class="col-md-4 mb-3">
+            <label>POD Received</label>
+            <select formControlName="podReceived" class="form-control">
+              <option value="" disabled selected>Select POD status</option>
+              <option [ngValue]="true">Yes</option>
+              <option [ngValue]="false">No</option>
+            </select>
+          </div>
+
+                   <!-- POD Document -->
+<div class="row justify-content-center">
+  <div class="col-md-4 mb-3 text-center">
+    <label class="form-label">POD Document</label>
+    <input
+      formControlName="podDocument"
+      class="form-control"
+      placeholder="Enter POD document name or link"
+    />
+  </div>
+
+
+
+</div>
+
+
+        </div>
+
+        <!-- Submit -->
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-primary px-5" [disabled]="bookingForm.invalid">Submit</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

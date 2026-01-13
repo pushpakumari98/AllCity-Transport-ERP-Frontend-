@@ -1,0 +1,21 @@
+.logo-circle {
+  width: 130px;      /* increased size for full visibility */
+  height: 120px;     /* increased size for full visibility */
+  border-radius: 15px; /* slightly rounded corners */
+  object-fit: contain; /* show full image */
+  background-color: #ffffff; /* white background for logos */
+  padding: 8px;     /* padding around logo */
+  border: 2px solid #e9ecef; /* subtle border */
+}
+
+.small-card {
+  width: 370px;
+  height: 480px;   /* increased height for larger logo */
+  padding-bottom: 30px;
+}
+
+.small-card1 {
+  width: 330px;
+  height: 200px;   /* fixed height */
+  padding: 20px;
+}

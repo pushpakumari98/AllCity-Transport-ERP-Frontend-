@@ -1,0 +1,184 @@
+<div class="container-fluid">
+  <div class="row mb-4">
+    <div class="col-12 text-center">
+      <h2 class="mb-3" style="color: black;">Driver Reports</h2>
+
+      <!-- Export and Print Buttons - Just below the driver report title -->
+      <div *ngIf="!loading" class="d-flex justify-content-center gap-2 mt-3">
+        <!-- Export Button - Single dropdown with all export options -->
+        <div class="btn-group" ngbDropdown>
+          <button type="button" class="btn btn-primary btn-sm dropdown-toggle" ngbDropdownToggle>
+            <i class="fa fa-download me-2"></i>Export
+          </button>
+          <div ngbDropdownMenu class="dropdown-menu">
+            <button class="dropdown-item" (click)="exportToPDF()">
+              <i class="fa fa-file-pdf-o me-2"></i>PDF
+            </button>
+            <button class="dropdown-item" (click)="exportToCSV()">
+              <i class="fa fa-file-o me-2"></i>CSV
+            </button>
+            <button class="dropdown-item" (click)="exportToExcel()">
+              <i class="fa fa-file-excel-o me-2"></i>Excel
+            </button>
+            <button class="dropdown-item" (click)="exportToDocx()">
+              <i class="fa fa-file-word-o me-2"></i>Docs
+            </button>
+          </div>
+        </div>
+
+        <!-- Print Report Button -->
+        <button type="button" class="btn btn-secondary btn-sm" (click)="printReport()">
+          <i class="fa fa-print me-2"></i>Print Report
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="row mb-4">
+    <div class="col-md-3 mb-3">
+      <div class="card bg-info text-white">
+        <div class="card-body text-center">
+          <h5 class="card-title">Today</h5>
+          <h2>{{ todayDrivers }}</h2>
+          <p class="mb-0">Drivers</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card bg-success text-white">
+        <div class="card-body text-center">
+          <h5 class="card-title">This Week</h5>
+          <h2>{{ weekDrivers }}</h2>
+          <p class="mb-0">Drivers</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card bg-warning text-white">
+        <div class="card-body text-center">
+          <h5 class="card-title">This Month</h5>
+          <h2>{{ monthDrivers }}</h2>
+          <p class="mb-0">Drivers</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card bg-purple text-white">
+        <div class="card-body text-center">
+          <h5 class="card-title">This Year</h5>
+          <h2>{{ yearDrivers }}</h2>
+          <p class="mb-0">Drivers</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Controls -->
+  <div class="row mb-3 justify-content-center">
+    <div class="col-md-6">
+      <label for="filterSelect">Filter Drivers:</label>
+      <select id="filterSelect" class="form-control" [(ngModel)]="selectedFilter" (change)="onFilterChange()">
+        <option *ngFor="let option of filterOptions" [value]="option.value">{{ option.label }}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Loader -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary"></div>
+    <p>Loading driver reports...</p>
+  </div>
+
+  <!-- Drivers Table -->
+  <div *ngIf="!loading && filteredDrivers.length > 0" class="row">
+    <div class="col-12">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead class="text-center">
+            <tr style="background-color: #6c757d;">
+              <th>Sr.No</th>
+              <th>Serial Number</th>
+              <th>Driver Name</th>
+              <th>Vehicle Number</th>
+              <th>Contact Number</th>
+              <th>From Location</th>
+              <th>Destination</th>
+              <th>Material Type</th>
+              <th>Address</th>
+              <th>Registration Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let driver of filteredDrivers; let i = index">
+              <td class="text-center">{{ i + 1 }}</td>
+              <td class="text-center">{{ driver.serialNumber }}</td>
+              <td class="text-center">{{ driver.driverName }}</td>
+              <td class="text-center">{{ driver.vehicleNumber }}</td>
+              <td class="text-center">{{ driver.contactNumber }}</td>
+              <td class="text-center">{{ driver.startedFrom }}</td>
+              <td class="text-center">{{ driver.destination }}</td>
+              <td class="text-center">{{ driver.carryMaterialType }}</td>
+              <td class="text-center">{{ driver.address }}</td>
+              <td class="text-center">{{ driver.date }}</td>
+              <td class="text-center">
+                <button class="btn btn-sm btn-warning me-2"
+                        (click)="editDriver(driver)"
+                        title="Edit">
+                  <i class="fa fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-danger"
+                        (click)="deleteDriver(driver)"
+                        title="Delete">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Data Message -->
+  <div *ngIf="!loading && filteredDrivers.length === 0" class="text-center py-5">
+    <h4>No drivers found for the selected filter.</h4>
+  </div>
+</div>
+
+<!-- CONFIRMATION DIALOG -->
+<div *ngIf="showConfirmationDialog" class="modal-backdrop fade show" style="z-index: 1055;"></div>
+<div *ngIf="showConfirmationDialog" class="modal" tabindex="-1" style="display:block; z-index: 1056;">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete Driver</h5>
+        <button type="button" class="btn-close" (click)="onCancelDelete()"></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this driver record? This action cannot be undone.</p>
+        <div *ngIf="selectedDriverForDelete" class="alert alert-warning">
+          <strong>Driver Details:</strong><br>
+          Name: {{ selectedDriverForDelete.driverName }}<br>
+          Vehicle: {{ selectedDriverForDelete.vehicleNumber }}<br>
+          Serial No: {{ selectedDriverForDelete.serialNumber }}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="onCancelDelete()">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="onConfirmDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DRIVER MODAL -->
+<app-driver-modal
+  *ngIf="showDriverModal"
+  [show]="showDriverModal"
+  [editMode]="editMode"
+  [driverData]="selectedDriverForEdit"
+  (closeModal)="closeDriverModal()"
+  (driverSaved)="onDriverSaved($event)">
+</app-driver-modal>

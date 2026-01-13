@@ -1,0 +1,149 @@
+<div class="container-fluid">
+  <div class="row mb-4">
+    <div class="col-12 d-flex justify-content-between align-items-center">
+      <h2 class="mb-0" style="color: black;">Vehicle List</h2>
+
+
+     
+      <div class="d-flex gap-2">
+        <!-- Add New Button -->
+        <button type="button" class="btn btn-success btn-sm" (click)="addNewVehicle()">
+          <i class="fa fa-plus me-2"></i>Add New Vehicle
+        </button>
+       
+       
+        <!-- Export Dropdown -->
+        <div class="btn-group" ngbDropdown>
+          <button type="button" class="btn btn-primary btn-sm dropdown-toggle" ngbDropdownToggle>
+            <i class="fa fa-download me-2"></i>Export
+          </button>
+          <div ngbDropdownMenu class="dropdown-menu">
+            <button class="dropdown-item" (click)="exportToPDF()">
+              <i class="fa fa-file-pdf-o me-2"></i>Export to PDF
+            </button>
+            <button class="dropdown-item" (click)="exportToExcel()">
+              <i class="fa fa-file-excel-o me-2"></i>Export to Excel
+            </button>
+            <button class="dropdown-item" (click)="exportToCSV()">
+              <i class="fa fa-file-o me-2"></i>Export to CSV
+            </button>
+            <button class="dropdown-item" (click)="exportToDocx()">
+              <i class="fa fa-file-word-o me-2"></i>Export to Docx
+            </button>
+          </div>
+        </div>
+        <!-- Print Button -->
+        <button type="button" class="btn btn-secondary btn-sm" (click)="printVehicles()">
+          <i class="fa fa-print me-2"></i>Print List
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loader -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary"></div>
+    <p>Loading vehicles...</p>
+  </div>
+
+  <!-- Vehicles Table -->
+  <div *ngIf="!loading && vehicles.length > 0" class="row">
+    <div class="col-12">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead class="text-center">
+            <tr>
+              <th style="background-color: #f8f9fa;">Vehicle ID</th>
+              <th style="background-color: #e9ecef;">Registration No</th>
+              <th style="background-color: #f8f9fa;">Vehicle Type</th>
+              <th style="background-color: #e9ecef;">Permit Level</th>
+              <th style="background-color: #f8f9fa;">Driver Mobile</th>
+              <th style="background-color: #e9ecef;">Price (₹)</th>
+              <th style="background-color: #f8f9fa;">Capacity</th>
+              <th style="background-color: #e9ecef;">Origin City</th>
+              <th style="background-color: #f8f9fa;">Destination City</th>
+              <th style="background-color: #e9ecef;">Status</th>
+              <th style="background-color: #f8f9fa;">Description</th>
+              <th style="background-color: #e9ecef;">Image</th>
+              <th style="background-color: #f8f9fa;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let vehicle of vehicles">
+              <td class="text-center">{{ vehicle.vehicleId }}</td>
+              <td class="text-center">{{ vehicle.vehicleRegNo }}</td>
+              <td class="text-center">
+                <span class="badge bg-info">{{ vehicle.vehicleType }}</span>
+              </td>
+              <td class="text-center">
+                <span class="badge bg-secondary">{{ vehicle.permitLevel }}</span>
+              </td>
+              <td class="text-center">{{ vehicle.driverMob }}</td>
+              <td class="text-center">{{ vehicle.price }}</td>
+              <td class="text-center">{{ vehicle.capacity }}</td>
+              <td class="text-center">{{ vehicle.originCity || '-' }}</td>
+              <td class="text-center">{{ vehicle.destinationCity || '-' }}</td>
+              <td class="text-center">
+                <span class="badge" [ngClass]="getStatusBadgeClass(vehicle.vehicleStatus)">{{ vehicle.vehicleStatus || 'AVAILABLE' }}</span>
+              </td>
+              <td class="text-center">{{ vehicle.description || '-' }}</td>
+              <td class="text-center">
+                <img *ngIf="vehicle.imageUrl"
+                     [src]="'http://localhost:8080' + vehicle.imageUrl"
+                     alt="Vehicle Image"
+                     class="img-thumbnail"
+                     style="width: 60px; height: 60px; object-fit: cover;"
+                     (error)="onImageError($event)">
+                <div *ngIf="!vehicle.imageUrl" class="text-muted small">
+                  <i class="fa fa-image"></i><br>
+                </div>
+              </td>
+              <td class="text-center">
+                <button class="btn btn-sm btn-warning me-2"
+                        (click)="editVehicle(vehicle)"
+                        title="Update">
+                  <i class="fa fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-danger"
+                        (click)="deleteVehicle(vehicle)"
+                        title="Delete">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Data Message -->
+  <div *ngIf="!loading && vehicles.length === 0" class="text-center py-5">
+    <h4>No vehicles found.</h4>
+    <p>Start by adding your first vehicle to the system.</p>
+    <button class="btn btn-success" (click)="addNewVehicle()">
+      <i class="fa fa-plus me-2"></i>Add New Vehicle
+    </button>
+  </div>
+</div>
+
+<!-- CONFIRMATION DIALOG -->
+<app-confirmation-dialog
+  [show]="showConfirmationDialog"
+  title="Delete Vehicle"
+  message="Are you sure you want to delete vehicle {{ vehicleToDelete?.vehicleId }}? This action cannot be undone and will permanently remove the vehicle from the system."
+  confirmButtonText="Delete Vehicle"
+  cancelButtonText="Cancel"
+  confirmButtonClass="btn-danger"
+  (confirm)="onConfirmDelete()"
+  (cancel)="onCancelDelete()">
+</app-confirmation-dialog>
+
+<!-- VEHICLE MODAL -->
+<app-vehicle-modal
+  [show]="showVehicleModal"
+  [editMode]="editMode"
+  [vehicleData]="selectedVehicle"
+  (closeModal)="closeVehicleModal()"
+  (vehicleSaved)="onVehicleSaved($event)">
+</app-vehicle-modal>

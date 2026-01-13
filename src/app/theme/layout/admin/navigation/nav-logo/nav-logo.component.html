@@ -1,0 +1,55 @@
+<div class="">
+  <a [routerLink]="['/dashboard/default/']" class="b-brand">
+
+    <div class="b-bg" style="background: transparent; box-shadow: none;">
+      <img src="assets/logo/logo1.png"
+           alt="AllCity Transport Agency"
+           style="height:40px; width:auto;" />
+    </div>
+
+    <!-- Updated Title Section -->
+    <div class="b-title" style="
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      text-align: center;
+      position: absolute;
+      left: 69px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      line-height: 1.17;
+      text-shadow: 0 4px 4px rgba(0, 0, 0, 0);
+    ">
+
+      <!-- Main Title -->
+      <div style="
+        font-size: 0.8rem;
+        font-weight: 1000;
+        letter-spacing: 0.5px;
+        margin-bottom: 2px;
+      ">
+        ALLCITY TRANSPORT
+      </div>
+
+      <!-- Sub Title -->
+      <div style="
+        font-size: 0.8rem;
+        font-weight: 1000;
+        letter-spacing: 0.5px;
+        margin-bottom: 2px;
+      ">
+        AGENCY
+      </div>
+
+    </div>
+
+  </a>
+
+  <a href="javascript:" class="mobile-menu"
+     [ngClass]="{ on: navCollapsed }"
+     id="mobile-collapse"
+     (click)="navCollapse()">
+     <span></span>
+  </a>
+</div>

@@ -1,0 +1,94 @@
+<!-- PURCHASE MODAL -->
+<div class="modal fade" [class.show]="show" [style.display]="show ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ isViewMode ? 'View' : (editMode ? 'Edit' : 'Add') }} Vehicle Purchase</h5>
+        <button type="button" class="btn-close" (click)="close()" aria-label="Close"></button>
+      </div>
+      <form [formGroup]="purchaseForm">
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="date">Date</label>
+              <input type="date" id="date" formControlName="date" class="form-control" />
+              <div *ngIf="purchaseForm.get('date')?.invalid && purchaseForm.get('date')?.touched" class="text-danger mt-1">
+                <small>Date is required</small>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="vehicleNo">Vehicle No</label>
+              <input type="text" id="vehicleNo" formControlName="vehicleNo" class="form-control" placeholder="Enter Vehicle Number" />
+              <div *ngIf="purchaseForm.get('vehicleNo')?.invalid && purchaseForm.get('vehicleNo')?.touched" class="text-danger mt-1">
+                <small>Vehicle No is required</small>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="bookingHire">Booking Name</label>
+              <input type="text" id="bookingHire" formControlName="bookingHire" class="form-control" placeholder="Enter Booking Name" />
+              <div *ngIf="purchaseForm.get('bookingHire')?.invalid && purchaseForm.get('bookingHire')?.touched" class="text-danger mt-1">
+                <small>Booking Name is required</small>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="bookingReceivingBalanceDate">Booking Receiving Balance Date</label>
+              <input type="date" id="bookingReceivingBalanceDate" formControlName="bookingReceivingBalanceDate" class="form-control" />
+            </div>
+
+            <div class="col-md-6">
+              <label for="fromLocation">From Location</label>
+              <input type="text" id="fromLocation" formControlName="fromLocation" class="form-control" placeholder="Enter From Location" />
+              <div *ngIf="purchaseForm.get('fromLocation')?.invalid && purchaseForm.get('fromLocation')?.touched" class="text-danger mt-1">
+                <small>From Location is required</small>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="toLocation">To Location</label>
+              <input type="text" id="toLocation" formControlName="toLocation" class="form-control" placeholder="Enter To Location" />
+              <div *ngIf="purchaseForm.get('toLocation')?.invalid && purchaseForm.get('toLocation')?.touched" class="text-danger mt-1">
+                <small>To Location is required</small>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="transportName">Transport Name</label>
+              <input type="text" id="transportName" formControlName="transportName" class="form-control" placeholder="Enter Transport Name" />
+              <div *ngIf="purchaseForm.get('transportName')?.invalid && purchaseForm.get('transportName')?.touched" class="text-danger mt-1">
+                <small>Transport Name is required</small>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="detain">Detain</label>
+              <input type="text" id="detain" formControlName="detain" class="form-control" placeholder="Enter Detain Amount" />
+              <div *ngIf="purchaseForm.get('detain')?.invalid && purchaseForm.get('detain')?.touched" class="text-danger mt-1">
+                <small>Detain is required</small>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="podReceivedDate">POD Received Date</label>
+              <input type="date" id="podReceivedDate" formControlName="podReceivedDate" class="form-control" />
+            </div>
+
+            <div class="col-md-6">
+              <label for="lorryBalancePaidDate">Lorry Balance Paid Date</label>
+              <input type="date" id="lorryBalancePaidDate" formControlName="lorryBalancePaidDate" class="form-control" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button *ngIf="!isViewMode" type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
+          <button *ngIf="!isViewMode" type="button" class="btn btn-info" [disabled]="purchaseForm.invalid" (click)="savePurchase()">{{ editMode ? 'Update' : 'Submit' }}</button>
+          <button *ngIf="isViewMode" type="button" class="btn btn-primary" (click)="close()">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="show" class="modal-backdrop fade show"></div>

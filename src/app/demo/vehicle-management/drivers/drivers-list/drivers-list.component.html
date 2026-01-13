@@ -1,0 +1,224 @@
+<!-- Show form first (like bookings page) -->
+<div *ngIf="showDriverModal" class="page-container">
+  <div class="card">
+    <div class="card-header text-center">
+      <h5>{{ editMode ? 'Edit' : 'Add' }} Driver</h5>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="driverForm" (ngSubmit)="saveDriver()">
+        <!-- 3 COLUMN GRID -->
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="serialNumber">Sl. No</label>
+            <input type="text" id="serialNumber" formControlName="serialNumber" class="form-control" placeholder="Enter Sl. No" />
+            <div *ngIf="driverForm.get('serialNumber')?.invalid && driverForm.get('serialNumber')?.touched" class="text-danger mt-1">
+              <small>Sl. No is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="date">Date</label>
+            <input type="date" id="date" formControlName="date" class="form-control" />
+            <div *ngIf="driverForm.get('date')?.invalid && driverForm.get('date')?.touched" class="text-danger mt-1">
+              <small>Date is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="vehicleNumber">Vehicle No</label>
+            <input type="text" id="vehicleNumber" formControlName="vehicleNumber" class="form-control" placeholder="Enter Vehicle No" />
+            <div *ngIf="driverForm.get('vehicleNumber')?.invalid && driverForm.get('vehicleNumber')?.touched" class="text-danger mt-1">
+              <small>Vehicle No is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="driverName">Driver Name</label>
+            <input type="text" id="driverName" formControlName="driverName" class="form-control" placeholder="Driver Name" />
+            <div *ngIf="driverForm.get('driverName')?.invalid && driverForm.get('driverName')?.touched" class="text-danger mt-1">
+              <small>Driver Name is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="startedFrom">Started From</label>
+            <input type="text" id="startedFrom" formControlName="startedFrom" class="form-control" placeholder="Started From" />
+            <div *ngIf="driverForm.get('startedFrom')?.invalid && driverForm.get('startedFrom')?.touched" class="text-danger mt-1">
+              <small>Started From is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="destination">To</label>
+            <input type="text" id="destination" formControlName="destination" class="form-control" placeholder="Destination" />
+            <div *ngIf="driverForm.get('destination')?.invalid && driverForm.get('destination')?.touched" class="text-danger mt-1">
+              <small>Destination is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="carryMaterialType">Type of Material</label>
+            <input type="text" id="carryMaterialType" formControlName="carryMaterialType" class="form-control" placeholder="Type of Material" />
+            <div *ngIf="driverForm.get('carryMaterialType')?.invalid && driverForm.get('carryMaterialType')?.touched" class="text-danger mt-1">
+              <small>Type of Material is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="contactNumber">Contact No</label>
+            <input type="tel" id="contactNumber" formControlName="contactNumber" class="form-control" placeholder="Contact No" />
+            <div *ngIf="driverForm.get('contactNumber')?.invalid && driverForm.get('contactNumber')?.touched" class="text-danger mt-1">
+              <small>Contact No is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="address">Address</label>
+            <textarea id="address" formControlName="address" class="form-control" placeholder="Enter Address" rows="2"></textarea>
+            <div *ngIf="driverForm.get('address')?.invalid && driverForm.get('address')?.touched" class="text-danger mt-1">
+              <small>Address is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="document">Upload Document</label>
+            <input type="file" id="document" class="form-control" (change)="onFileChange($event)" accept=".pdf,.jpg,.png,.doc,.docx" />
+          </div>
+        </div>
+
+        <!-- SUBMIT BUTTON -->
+        <div class="d-flex justify-content-center mt-3">
+          <button type="submit" class="btn btn-primary px-5" [disabled]="driverForm.invalid">{{ editMode ? 'Update' : 'Save' }} Driver</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Show list after form submission (like booked vehicles list) -->
+<div *ngIf="showList" class="container-fluid">
+  <div class="row mb-4">
+    <div class="col-12 d-flex justify-content-between align-items-center">
+      <h2 class="mb-0">Drivers Management</h2>
+
+      <!-- Buttons: Add New Driver, Export, Print List -->
+      <div class="d-flex gap-2" *ngIf="!loading">
+        <!-- Add New Driver Button -->
+        <button class="btn btn-success btn-sm" (click)="addDriver()">
+          <i class="fa fa-plus me-2"></i>Add New Driver
+        </button>
+        <!-- Export Dropdown -->
+        <div class="btn-group" ngbDropdown>
+          <button type="button" class="btn btn-primary btn-sm dropdown-toggle" ngbDropdownToggle>
+            <i class="fa fa-download me-2"></i>Export
+          </button>
+          <div ngbDropdownMenu class="dropdown-menu">
+            <button class="dropdown-item" (click)="exportToPDF()">
+              <i class="fa fa-file-pdf-o me-2"></i>Export to PDF
+            </button>
+            <button class="dropdown-item" (click)="exportToExcel()">
+              <i class="fa fa-file-excel-o me-2"></i>Export to Excel
+            </button>
+            <button class="dropdown-item" (click)="exportToCSV()">
+              <i class="fa fa-file-o me-2"></i>Export to CSV
+            </button>
+            <button class="dropdown-item" (click)="exportToDocx()">
+              <i class="fa fa-file-word-o me-2"></i>Export to Docx
+            </button>
+          </div>
+        </div>
+        <!-- Print Button -->
+        <button type="button" class="btn btn-secondary btn-sm" (click)="printDrivers()">
+          <i class="fa fa-print me-2"></i>Print List
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loader -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary"></div>
+    <p>Loading drivers...</p>
+  </div>
+
+  <!-- Drivers Table -->
+  <div *ngIf="!loading && drivers.length > 0" class="row">
+    <div class="col-12">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead class="text-center">
+            <tr>
+              <th class="text-center">Sl. No</th>
+              <th class="text-center">Date</th>
+              <th class="text-center">Vehicle No</th>
+              <th class="text-center">Driver Name</th>
+              <th class="text-center">Started From</th>
+              <th class="text-center">To</th>
+              <th class="text-center">Type of Material Carry</th>
+              <th class="text-center">Contact No</th>
+              <th class="text-center">Address</th>
+              <th class="text-center">Document</th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let driver of drivers; trackBy: trackByDriverId">
+              <td class="text-center">{{ driver.serialNumber }}</td>
+              <td class="text-center">{{ driver.date }}</td>
+              <td class="text-center">{{ driver.vehicleNumber }}</td>
+              <td class="text-center">{{ driver.driverName }}</td>
+              <td class="text-center">{{ driver.startedFrom }}</td>
+              <td class="text-center">{{ driver.destination }}</td>
+              <td class="text-center">{{ driver.carryMaterialType }}</td>
+              <td class="text-center">{{ driver.contactNumber }}</td>
+              <td class="text-center">{{ driver.address | slice:0:30 }}{{ driver.address?.length > 30 ? '...' : '' }}</td>
+              <td class="text-center">
+                <button *ngIf="driver.document" class="btn btn-sm btn-link" (click)="viewDocument(driver.document || '')">
+                  <i class="fa fa-file"></i> View
+                </button>
+                <span *ngIf="!driver.document">-</span>
+              </td>
+              <td class="text-center">
+                <button class="btn btn-sm btn-warning me-2" (click)="updateDriver(driver)" title="Update">
+                  <i class="fa fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="deleteDriver(driver)" title="Delete">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Data Message -->
+  <div *ngIf="!loading && drivers.length === 0" class="text-center py-5">
+    <h4>No drivers found.</h4>
+    <button class="btn btn-primary" (click)="addDriver()">Add New Driver</button>
+  </div>
+
+</div>
+
+<!-- CONFIRMATION DIALOG -->
+<app-confirmation-dialog
+  [show]="showConfirmationDialog"
+  title="Delete Driver"
+  message="Are you sure you want to delete this driver? This action cannot be undone."
+  confirmButtonText="Delete"
+  cancelButtonText="Cancel"
+  confirmButtonClass="btn-danger"
+  (confirm)="onConfirmDelete()"
+  (cancel)="onCancelDelete()">
+</app-confirmation-dialog>
+
+<!-- DRIVER MODAL -->
+<app-driver-modal
+  [show]="showDriverModal"
+  [editMode]="editMode"
+  [driverData]="selectedDriver"
+  (closeModal)="closeDriverModal()"
+  (refreshList)="loadDrivers()"
+  (driverSaved)="onDriverSaved($event)">
+</app-driver-modal>

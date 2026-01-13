@@ -1,0 +1,166 @@
+<div class="page-container">
+  <div class="card">
+    <div class="card-header text-center">
+      <h5>Add New Vehicle</h5>
+      <div class="text-end">
+        <button type="button" class="btn btn-info" (click)="goToVehicleList()">
+          <i class="fa fa-list"></i> View Vehicle List
+        </button>
+      </div>
+    </div>
+    <div class="card-body">
+          <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <!-- Vehicle Registration Number -->
+              <div class="col-md-4 mb-3">
+                <label>Vehicle Registration Number *</label>
+                <input
+                  type="text"
+                  formControlName="vehicleRegNo"
+                  class="form-control"
+                  placeholder="Enter vehicle registration number">
+                <div *ngIf="vehicleForm.get('vehicleRegNo')?.invalid && vehicleForm.get('vehicleRegNo')?.touched"
+                     class="text-danger mt-1">
+                  <small>{{ getErrorMessage('vehicleRegNo') }}</small>
+                </div>
+              </div>
+
+              <!-- Permit Level -->
+              <div class="col-md-4 mb-3">
+                <label>Permit Level *</label>
+                <select formControlName="permitLevel" class="form-control">
+                  <option value="" disabled selected>Select permit level</option>
+                  <option *ngFor="let level of permitLevelOptions" [value]="level">{{ level }}</option>
+                </select>
+                <div *ngIf="vehicleForm.get('permitLevel')?.invalid && vehicleForm.get('permitLevel')?.touched"
+                     class="text-danger mt-1">
+                  <small>{{ getErrorMessage('permitLevel') }}</small>
+                </div>
+              </div>
+
+              <!-- Driver Mobile Number -->
+              <div class="col-md-4 mb-3">
+                <label>Driver Mobile Number *</label>
+                <input
+                  type="number"
+                  formControlName="driverMob"
+                  class="form-control"
+                  placeholder="Enter 10-digit mobile number">
+                <div *ngIf="vehicleForm.get('driverMob')?.invalid && vehicleForm.get('driverMob')?.touched"
+                     class="text-danger mt-1">
+                  <small>{{ getErrorMessage('driverMob') }}</small>
+                </div>
+              </div>
+
+              <!-- Vehicle Type -->
+              <div class="col-md-4 mb-3">
+                <label>Vehicle Type *</label>
+                <select formControlName="vehicleType" class="form-control">
+                  <option value="" disabled selected>Select vehicle type</option>
+                  <option *ngFor="let type of vehicleTypeOptions" [value]="type">{{ type }}</option>
+                </select>
+                <div *ngIf="vehicleForm.get('vehicleType')?.invalid && vehicleForm.get('vehicleType')?.touched"
+                     class="text-danger mt-1">
+                  <small>{{ getErrorMessage('vehicleType') }}</small>
+                </div>
+              </div>
+
+              <!-- Price -->
+              <div class="col-md-4 mb-3">
+                <label>Price (One Way) *</label>
+                <input
+                  type="number"
+                  formControlName="price"
+                  class="form-control"
+                  placeholder="Enter price"
+                  step="0.01"
+                  min="0.1">
+                <div *ngIf="vehicleForm.get('price')?.invalid && vehicleForm.get('price')?.touched"
+                     class="text-danger mt-1">
+                  <small>{{ getErrorMessage('price') }}</small>
+                </div>
+              </div>
+
+              <!-- Capacity -->
+              <div class="col-md-4 mb-3">
+                <label>Capacity *</label>
+                <input
+                  type="number"
+                  formControlName="capacity"
+                  class="form-control"
+                  placeholder="Enter capacity"
+                  min="1">
+                <div *ngIf="vehicleForm.get('capacity')?.invalid && vehicleForm.get('capacity')?.touched"
+                     class="text-danger mt-1">
+                  <small>{{ getErrorMessage('capacity') }}</small>
+                </div>
+              </div>
+
+              <!-- Vehicle Status -->
+              <div class="col-md-4 mb-3">
+                <label>Vehicle Status</label>
+                <select formControlName="vehicleStatus" class="form-control">
+                  <option value="" disabled selected>Select vehicle status</option>
+                  <option *ngFor="let status of vehicleStatusOptions" [value]="status">{{ status }}</option>
+                </select>
+              </div>
+
+              <!-- Origin City -->
+              <div class="col-md-4 mb-3">
+                <label>Origin City</label>
+                <input
+                  type="text"
+                  formControlName="originCity"
+                  class="form-control"
+                  placeholder="Enter origin city">
+              </div>
+
+              <!-- Destination City -->
+              <div class="col-md-4 mb-3">
+                <label>Destination City</label>
+                <input
+                  type="text"
+                  formControlName="destinationCity"
+                  class="form-control"
+                  placeholder="Enter destination city">
+              </div>
+
+              <!-- Description -->
+              <div class="col-md-4 mb-3">
+                <label>Description</label>
+                <textarea
+                  formControlName="description"
+                  class="form-control"
+                  rows="3"
+                  placeholder="Enter vehicle description"></textarea>
+              </div>
+            </div>
+
+            <!-- Image Upload -->
+            <div class="row justify-content-center">
+              <div class="col-md-4 mb-3 text-center">
+                <label class="form-label">Vehicle Image</label>
+                <input
+                  type="file"
+                  class="form-control"
+                  (change)="onFileSelected($event)"
+                  accept="image/*">
+                <small class="form-text text-muted">Upload a vehicle image (max 5MB, JPG/PNG only)</small>
+                <div *ngIf="selectedFile" class="mt-2">
+                  <small class="text-success">Selected: {{ selectedFile.name }}</small>
+                </div>
+              </div>
+            </div>
+
+            <!-- Submit -->
+            <div class="text-center mt-3">
+              <button type="submit" class="btn btn-primary px-5" [disabled]="vehicleForm.invalid || isSubmitting">
+                <i class="fas fa-save" *ngIf="!isSubmitting"></i>
+                <i class="fas fa-spinner fa-spin" *ngIf="isSubmitting"></i>
+                {{ isSubmitting ? 'Adding Vehicle...' : 'Add Vehicle' }}
+              </button>
+            </div>
+          </form>
+    </div>
+  </div>
+</div>

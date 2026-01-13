@@ -1,0 +1,35 @@
+/* Guest Layout Styles */
+
+/* Dashboard navigation button on login/signup background */
+.dashboard-nav-background {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 10000; /* High z-index to appear over everything */
+}
+
+.btn-dashboard-background {
+  border-radius: 25px;
+  padding: 10px 18px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 2px solid rgba(0, 123, 255, 0.8);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  color: #000;  /* Black text color */
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+    background: rgba(0, 123, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.9);
+    color: #000;  /* Maintain black text on hover */
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+  }
+}

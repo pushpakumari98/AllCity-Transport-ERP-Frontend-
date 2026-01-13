@@ -1,0 +1,155 @@
+<div class="container-fluid">
+  <div class="row mb-4">
+    <div class="col-12 d-flex justify-content-between align-items-center">
+      <h2 class="mb-0">Vehicle Booking</h2>
+
+      <!-- Add New Button, Export and Print Buttons -->
+      <div class="d-flex gap-2">
+        <!-- Add New Button -->
+        <button type="button" class="btn btn-success btn-sm" (click)="addBooking()">
+          <i class="fa fa-plus me-2"></i>Add New vehicle
+        </button>
+        <!-- Export Dropdown -->
+        <div class="btn-group" ngbDropdown>
+          <button type="button" class="btn btn-primary btn-sm dropdown-toggle" ngbDropdownToggle>
+            <i class="fa fa-download me-2"></i>Export
+          </button>
+          <div ngbDropdownMenu class="dropdown-menu">
+            <button class="dropdown-item" (click)="exportToPDF()">
+              <i class="fa fa-file-pdf-o me-2"></i>Export to PDF
+            </button>
+            <button class="dropdown-item" (click)="exportToExcel()">
+              <i class="fa fa-file-excel-o me-2"></i>Export to Excel
+            </button>
+            <button class="dropdown-item" (click)="exportToCSV()">
+              <i class="fa fa-file-o me-2"></i>Export to CSV
+            </button>
+            <button class="dropdown-item" (click)="exportToDocx()">
+              <i class="fa fa-file-word-o me-2"></i>Export to Docx
+            </button>
+          </div>
+        </div>
+        <!-- Print Button -->
+        <button type="button" class="btn btn-secondary btn-sm" (click)="printBookedVehicles()">
+          <i class="fa fa-print me-2"></i>Print List
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Loader -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary"></div>
+    <p>Loading vehicles...</p>
+  </div>
+
+  <!-- Booked Vehicles Table -->
+  <div *ngIf="!loading && bookings.length > 0" class="row">
+    <div class="col-12">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead class="text-center">
+            <tr style="background-color:#f8f9fa;">
+              <th class="text-center">Booking Id</th>
+              <th class="text-center">Vehicle Id</th>
+              <th class="text-center">Booking Date</th>
+              <th class="text-center">Booking Received Date</th>
+              <th class="text-center">Started From</th>
+              <th class="text-center">Destination</th>
+              <th class="text-center">Vehicle Type</th>
+              <th class="text-center">Vehicle Status</th>
+              <th class="text-center">Booking Status</th>
+              <th class="text-center">Driver Name</th>
+              <th class="text-center">Hire Amount</th>
+              <th class="text-center">Advance</th>
+              <th class="text-center">Balance</th>
+              <th class="text-center">Detain Info</th>
+              <th class="text-center">POD Received</th>
+              <th class="text-center">POD Document</th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+  <tr *ngFor="let booking of bookings; trackBy: trackByBookingId">
+    <td class="text-center">{{ booking.bookingId }}</td>
+    <td class="text-center">{{ booking.vehicle?.vehicleId || booking.vehicleId || 'N/A' }}</td>
+    <td class="text-center">{{ booking.bookingDate | date:'dd-MM-yyyy' }}</td>
+    <td class="text-center">{{ booking.bookingReceivedDate | date:'dd-MM-yyyy' }}</td>
+    <td class="text-center">{{ booking.startedFrom }}</td>
+    <td class="text-center">{{ booking.destination }}</td>
+    <td class="text-center">{{ booking.vehicleType }}</td>
+    <td class="text-center">{{ booking.vehicleStatus }}</td>
+    <td class="text-center">{{ booking.bookingStatus }}</td>
+    <td class="text-center">{{ booking.driverName }}</td>
+    <td class="text-center">{{ booking.bookingHire }}</td>
+    <td class="text-center">{{ booking.bookingAdvance }}</td>
+    <td class="text-center">{{ booking.bookingBalance }}</td>
+    <td class="text-center">{{ booking.detain }}</td>
+    <td class="text-center">
+      <span class="badge"
+          [ngClass]="booking.podReceived ? 'bg-success' : 'bg-secondary'">
+        {{ booking.podReceived ? 'Yes' : 'No' }}
+      </span>
+    </td>
+    <td class="text-center">
+      <a *ngIf="booking.podDocument"
+         [href]="booking.podDocument"
+         target="_blank"
+         class="btn btn-sm btn-info">
+        View
+      </a>
+      <span *ngIf="!booking.podDocument">—</span>
+    </td>
+
+  
+
+    <td class="text-center">
+      <button class="btn btn-sm btn-warning me-2"
+              (click)="updateBooking(booking)"
+              title="Update">
+        <i class="fa fa-edit"></i>
+      </button>
+      <button class="btn btn-sm btn-danger"
+              (click)="deleteBooking(booking)"
+              title="Delete">
+        <i class="fa fa-trash"></i>
+      </button>
+    </td>
+  </tr>
+</tbody>
+
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Data Message -->
+  <div *ngIf="!loading && bookings.length === 0" class="text-center py-5">
+    <h4>No booked vehicles found.</h4>
+  </div>
+
+</div>
+
+<!-- BOOKING MODAL -->
+<app-booking-modal
+  [show]="showBookingModal"
+  [editMode]="editMode"
+  [bookingData]="selectedBooking"
+  (closeModal)="closeBookingModal()"
+  (refreshList)="loadBookings()"
+  (bookingSaved)="onBookingSaved($event)">
+</app-booking-modal>
+
+<!-- CONFIRMATION DIALOG -->
+<app-confirmation-dialog
+  [show]="showConfirmationDialog"
+  title="Delete Booking"
+  message="Are you sure you want to delete this vehicle booking? This action cannot be undone."
+  confirmButtonText="Delete"
+  cancelButtonText="Cancel"
+  confirmButtonClass="btn-danger"
+  (confirm)="onConfirmDelete()"
+  (cancel)="onCancelDelete()">
+</app-confirmation-dialog>

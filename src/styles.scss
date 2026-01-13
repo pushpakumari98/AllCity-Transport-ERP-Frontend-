@@ -1,0 +1,340 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import 'scss/variables';
+
+/* fonts-icon */
+@import 'scss/fonts/fontawesome/scss/fontawesome';
+@import 'scss/fonts/feather/iconfont';
+
+@import 'scss/general';
+@import 'scss/generic';
+@import 'scss/mixins/function';
+
+/* important element */
+@import 'scss/menu/pc-footer.scss';
+@import 'scss/menu/menu-lite';
+
+/* basic elements */
+@import 'scss/theme-elements/theme-elements';
+
+/* third party modules style*/
+@import 'scss/plugins/plugins';
+
+@import 'scss/custom';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Sidebar matching dashboard welcome background */
+.pcoded-navbar {
+  background: linear-gradient(135deg, #1e40af 0%, #3730a3 100%) !important;
+}
+
+/* Dark Theme Styles - Professional Bluish Dark Theme */
+body.dark-theme {
+  background: linear-gradient(135deg, #1e2538 0%, #2d3446 50%, #1a2332 100%) !important;
+  color: #e2e8f0 !important;
+}
+
+body.dark-theme .card {
+  background: linear-gradient(145deg, #2d3748 0%, #374151 100%) !important;
+  border: 2px solid #4c5fd5 !important;
+  border-radius: 12px !important;
+  color: #e2e8f0 !important;
+  box-shadow: 0 8px 16px rgba(76, 95, 213, 0.2) !important;
+}
+
+body.dark-theme .card-header {
+  background: linear-gradient(145deg, #3b4a6b 0%, #475569 100%) !important;
+  border-bottom: 2px solid #5b87e5 !important;
+  color: #e2e8f0 !important;
+  border-radius: 10px 10px 0 0 !important;
+}
+
+/* Enhanced Button Styles for Dark Theme */
+body.dark-theme .btn {
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  border: 2px solid !important;
+  transition: all 0.3s ease !important;
+}
+
+body.dark-theme .btn-primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+  border-color: #3b82f6 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3) !important;
+}
+
+body.dark-theme .btn-primary:hover,
+body.dark-theme .btn-primary:focus {
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%) !important;
+  border-color: #2563eb !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 12px rgba(59, 130, 246, 0.4) !important;
+}
+
+body.dark-theme .btn-success {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  border-color: #10b981 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3) !important;
+}
+
+body.dark-theme .btn-success:hover,
+body.dark-theme .btn-success:focus {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+  border-color: #059669 !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 12px rgba(16, 185, 129, 0.4) !important;
+}
+
+body.dark-theme .btn-danger {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+  border-color: #ef4444 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3) !important;
+}
+
+body.dark-theme .btn-danger:hover,
+body.dark-theme .btn-danger:focus {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+  border-color: #dc2626 !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 12px rgba(239, 68, 68, 0.4) !important;
+}
+
+body.dark-theme .btn-warning {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+  border-color: #f59e0b !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 8px rgba(245, 158, 11, 0.3) !important;
+}
+
+body.dark-theme .btn-warning:hover,
+body.dark-theme .btn-warning:focus {
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
+  border-color: #d97706 !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 12px rgba(245, 158, 11, 0.4) !important;
+}
+
+body.dark-theme .btn-secondary {
+  background: linear-gradient(145deg, #6b7280 0%, #4b5563 100%) !important;
+  border-color: #6b7280 !important;
+  color: #f8f9fa !important;
+  box-shadow: 0 4px 8px rgba(75, 85, 99, 0.3) !important;
+}
+
+body.dark-theme .btn-secondary:hover,
+body.dark-theme .btn-secondary:focus {
+  background: linear-gradient(145deg, #9ca3af 0%, #6b7280 100%) !important;
+  border-color: #9ca3af !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 12px rgba(75, 85, 99, 0.4) !important;
+}
+
+body.dark-theme .btn-outline-primary {
+  background: transparent !important;
+  border-color: #3b82f6 !important;
+  color: #3b82f6 !important;
+}
+
+body.dark-theme .btn-outline-primary:hover,
+body.dark-theme .btn-outline-primary:focus {
+  background: #3b82f6 !important;
+  color: #ffffff !important;
+  border-color: #3b82f6 !important;
+}
+
+body.dark-theme .table {
+  color: #f8f9fa !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+
+body.dark-theme .table thead th {
+  background: linear-gradient(145deg, #374151 0%, #4b5563 100%) !important;
+  border-bottom: 2px solid #6b7280 !important;
+  color: #e5e7eb !important;
+  font-weight: 600 !important;
+  padding: 12px 16px !important;
+}
+
+body.dark-theme .table tbody td {
+  border-bottom: 1px solid #4b5563 !important;
+  padding: 12px 16px !important;
+}
+
+body.dark-theme .table tbody tr:hover {
+  background-color: #374151 !important;
+}
+
+body.dark-theme .dropdown-menu {
+  background: linear-gradient(145deg, #374151 0%, #454d5f 100%) !important;
+  border: 2px solid #5b6aa3 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px -5px rgba(91, 106, 163, 0.3) !important;
+}
+
+body.dark-theme .dropdown-item {
+  color: #f8f9fa !important;
+  padding: 10px 16px !important;
+}
+
+body.dark-theme .dropdown-item:hover {
+  background: linear-gradient(145deg, #4b5563 0%, #6b5c7b 100%) !important;
+  color: #f8f9fa !important;
+}
+
+body.dark-theme .navbar,
+body.dark-theme .pcoded-navbar {
+  background: linear-gradient(145deg, #2d3748 0%, #4a3d3d 100%) !important;
+  border-right: 2px solid #4b5563 !important;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+body.dark-theme .navbar-brand,
+body.dark-theme .navbar-nav .nav-link {
+  color: #f8f9fa !important;
+}
+
+body.dark-theme .navbar-nav .nav-link:hover {
+  color: #60a5fa !important;
+  background-color: #374151 !important;
+  border-radius: 6px !important;
+}
+
+/* Enhanced Form Styles for Dark Theme */
+body.dark-theme input[type="text"],
+body.dark-theme input[type="email"],
+body.dark-theme input[type="password"],
+body.dark-theme textarea,
+body.dark-theme select,
+body.dark-theme .form-control {
+  background: linear-gradient(145deg, #374151 0%, #4b5563 100%) !important;
+  border: 2px solid #6b7280 !important;
+  color: #f8f9fa !important;
+  border-radius: 8px !important;
+  padding: 8px 16px !important;
+  transition: all 0.3s ease !important;
+}
+
+body.dark-theme input[type="text"]:focus,
+body.dark-theme input[type="email"]:focus,
+body.dark-theme input[type="password"]:focus,
+body.dark-theme textarea:focus,
+body.dark-theme select:focus,
+body.dark-theme .form-control:focus {
+  background: linear-gradient(145deg, #374151 0%, #4b5563 100%) !important;
+  border-color: #8b5cf6 !important;
+  color: #f8f9fa !important;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3) !important;
+  outline: none !important;
+}
+
+/* Enhanced Form Labels and Text */
+body.dark-theme .form-label {
+  color: #d1d5db !important;
+  font-weight: 600 !important;
+}
+
+/* Dark mode for sidebar */
+body.dark-theme .pcoded-main-container {
+  background: linear-gradient(145deg, #1e2538 0%, #2b3448 100%) !important;
+}
+
+body.dark-theme .pcoded-inner-content {
+  background: linear-gradient(145deg, #1e2538 0%, #2b3448 100%) !important;
+}
+
+/* Dark mode for footer */
+body.dark-theme .pc-footer {
+  background: linear-gradient(145deg, #374151 0%, #424f67 100%) !important;
+  border-top: 2px solid #4a5b8c !important;
+  color: #e2e8f0 !important;
+}
+
+/* Modal enhancements for dark theme */
+body.dark-theme .modal-content {
+  background: linear-gradient(145deg, #374151 0%, #4a2c2c 100%) !important;
+  border: 2px solid #6b7280 !important;
+  border-radius: 12px !important;
+  color: #f8f9fa !important;
+}
+
+body.dark-theme .modal-header {
+  background: linear-gradient(145deg, #4b5563 0%, #6c5b7b 100%) !important;
+  border-bottom: 1px solid #6b7280 !important;
+  color: #f8f9fa !important;
+}
+
+/* Badge and badge enhancements */
+body.dark-theme .badge {
+  border-radius: 20px !important;
+  padding: 6px 12px !important;
+  font-size: 0.8em !important;
+  font-weight: 600 !important;
+}
+
+body.dark-theme .badge.bg-primary {
+  background: linear-gradient(145deg, #3b82f6 0%, #1d4ed8 100%) !important;
+}
+
+body.dark-theme .badge.bg-success {
+  background: linear-gradient(145deg, #10b981 0%, #059669 100%) !important;
+}
+
+body.dark-theme .badge.bg-danger {
+  background: linear-gradient(145deg, #ef4444 0%, #dc2626 100%) !important;
+}
+
+/* Alert enhancements */
+body.dark-theme .alert {
+  border-radius: 8px !important;
+  border: none !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+body.dark-theme .alert-primary {
+  background: rgba(59, 130, 246, 0.1) !important;
+  border-left: 4px solid #3b82f6 !important;
+  color: #93c5fd !important;
+}
+
+body.dark-theme .alert-success {
+  background: rgba(16, 185, 129, 0.1) !important;
+  border-left: 4px solid #10b981 !important;
+  color: #86efac !important;
+}
+
+body.dark-theme .alert-danger {
+  background: rgba(239, 68, 68, 0.1) !important;
+  border-left: 4px solid #ef4444 !important;
+  color: #fca5a5 !important;
+}
+
+/* Pagination enhancements */
+body.dark-theme .pagination .page-link {
+  background: linear-gradient(145deg, #374151 0%, #4b5563 100%) !important;
+  border-color: #6b7280 !important;
+  color: #d1d5db !important;
+}
+
+body.dark-theme .pagination .page-link:hover {
+  background: linear-gradient(145deg, #4b5563 0%, #6b7280 100%) !important;
+  border-color: #6b7280 !important;
+  color: #f8f9fa !important;
+}
+
+body.dark-theme .pagination .page-item.active .page-link {
+  background: linear-gradient(145deg, #3b82f6 0%, #1d4ed8 100%) !important;
+  border-color: #3b82f6 !important;
+  color: #ffffff !important;
+}

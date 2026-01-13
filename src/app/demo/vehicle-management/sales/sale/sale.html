@@ -1,0 +1,118 @@
+<div class="page-container">
+  <div class="card popup-card">
+    <div class="card-header text-center">
+      <h5>Vehicle Sale</h5>
+      <!-- View Sales Vehicles List Button in right corner -->
+      <div class="text-end">
+        <button type="button" class="btn btn-info" (click)="viewSoldVehiclesList()">
+          <i class="fa fa-list"></i> View Sold Vehicles List
+        </button>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <form [formGroup]="saleForm" (ngSubmit)="onSubmit()">
+
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label>Date *</label>
+            <input type="date" formControlName="date" class="form-control"
+                   [class.is-invalid]="saleForm.get('date')?.invalid && saleForm.get('date')?.touched" />
+            <div class="invalid-feedback" *ngIf="saleForm.get('date')?.invalid && saleForm.get('date')?.touched">
+              Date is required
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label>Lorry Number *</label>
+            <input formControlName="lorryNumber" class="form-control" placeholder="Enter Lorry Number"
+                   [class.is-invalid]="saleForm.get('lorryNumber')?.invalid && saleForm.get('lorryNumber')?.touched" />
+            <div class="invalid-feedback" *ngIf="saleForm.get('lorryNumber')?.invalid && saleForm.get('lorryNumber')?.touched">
+              Lorry Number is required
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label>Weight (kg) *</label>
+            <input type="number" formControlName="weight" class="form-control" step="0.01" min="0.01"
+                   [class.is-invalid]="saleForm.get('weight')?.invalid && saleForm.get('weight')?.touched" />
+            <div class="invalid-feedback" *ngIf="saleForm.get('weight')?.invalid && saleForm.get('weight')?.touched">
+              Weight must be greater than 0
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label>Lorry Hire *</label>
+            <input type="number" formControlName="lorryHire" class="form-control" step="0.01" min="0.01"
+                   [class.is-invalid]="saleForm.get('lorryHire')?.invalid && saleForm.get('lorryHire')?.touched" />
+            <div class="invalid-feedback" *ngIf="saleForm.get('lorryHire')?.invalid && saleForm.get('lorryHire')?.touched">
+              Lorry Hire must be greater than 0
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label>Commission *</label>
+            <input type="number" formControlName="commission" class="form-control" step="0.01" min="0"
+                   [class.is-invalid]="saleForm.get('commission')?.invalid && saleForm.get('commission')?.touched" />
+            <div class="invalid-feedback" *ngIf="saleForm.get('commission')?.invalid && saleForm.get('commission')?.touched">
+              Commission must be 0 or greater
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label>Bility *</label>
+            <input type="number" formControlName="bility" class="form-control" step="0.01" min="0"
+                   [class.is-invalid]="saleForm.get('bility')?.invalid && saleForm.get('bility')?.touched" />
+            <div class="invalid-feedback" *ngIf="saleForm.get('bility')?.invalid && saleForm.get('bility')?.touched">
+              Bility must be 0 or greater
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label>Payment Mode *</label>
+            <select formControlName="paymentMode" class="form-control"
+                    [class.is-invalid]="saleForm.get('paymentMode')?.invalid && saleForm.get('paymentMode')?.touched">
+              <option value="UPI">UPI</option>
+              <option value="IMPS">IMPS</option>
+              <option value="NETBANKING">NETBANKING</option>
+              <option value="CASH">CASH</option>
+              <option value="CREDIT_CARD">CREDIT CARD</option>
+              <option value="DEBIT_CARD">DEBIT CARD</option>
+            </select>
+            <div class="invalid-feedback" *ngIf="saleForm.get('paymentMode')?.invalid && saleForm.get('paymentMode')?.touched">
+              Payment Mode is required
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label>Petrol Pump</label>
+            <input formControlName="petrolPump" class="form-control" placeholder="Petrol Pump Name" />
+          </div>
+
+          <div class="col-md-4">
+            <label>Total Advance *</label>
+            <input type="number" formControlName="totalAdvance" class="form-control" step="0.01" min="0"
+                   [class.is-invalid]="saleForm.get('totalAdvance')?.invalid && saleForm.get('totalAdvance')?.touched" />
+            <div class="invalid-feedback" *ngIf="saleForm.get('totalAdvance')?.invalid && saleForm.get('totalAdvance')?.touched">
+              Total Advance must be 0 or greater
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Flow Information -->
+        <div class="alert alert-info mt-3" role="alert">
+          <i class="fa fa-info-circle me-2"></i>
+          <strong>Note:</strong> After submitting the sale form, you will be redirected to the payment page based on your selected payment mode to complete the transaction.
+        </div>
+
+        <div class="d-flex justify-content-center mt-3">
+          <button type="submit" class="btn btn-success px-5" [disabled]="saleForm.invalid">
+            <i class="fa fa-shopping-cart me-2"></i>Sell Vehicle & Proceed to Payment
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</div>

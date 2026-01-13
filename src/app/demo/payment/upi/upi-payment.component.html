@@ -1,0 +1,155 @@
+<div class="page-container">
+  <div class="card">
+    <div class="card-header text-center">
+      <h5>UPI Payment</h5>
+      <div class="text-muted small">Complete your vehicle sale payment via UPI</div>
+    </div>
+
+    <div class="card-body">
+      <!-- Sale Summary -->
+      <div class="sale-summary mb-4">
+        <h6 class="text-primary">Sale Summary</h6>
+        <div class="row">
+          <div class="col-md-6">
+            <p><strong>Vehicle:</strong> {{ saleData?.lorryNumber }}</p>
+            <p><strong>Date:</strong> {{ saleData?.date | date:'dd-MM-yyyy' }}</p>
+            <p><strong>Weight:</strong> {{ saleData?.weight }} kg</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Lorry Hire:</strong> ₹{{ saleData?.lorryHire }}</p>
+            <p><strong>Commission:</strong> ₹{{ saleData?.commission }}</p>
+            <p><strong>Bility:</strong> ₹{{ saleData?.bility }}</p>
+            <p><strong>Advance Paid:</strong> ₹{{ saleData?.totalAdvance }}</p>
+          </div>
+        </div>
+        <hr>
+        <div class="text-end">
+          <h5 class="text-success">Total Amount: ₹{{ upiForm.get('amount')?.value }}</h5>
+        </div>
+      </div>
+
+      <!-- UPI Payment Form -->
+      <form [formGroup]="upiForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <!-- Row 1: Basic Payment Info -->
+          <div class="col-md-6 mb-3">
+            <label>UPI ID *</label>
+            <input
+              type="text"
+              formControlName="upiId"
+              class="form-control"
+              placeholder="example@upi"
+              [class.is-invalid]="upiForm.get('upiId')?.invalid && upiForm.get('upiId')?.touched"
+            />
+            <div *ngIf="upiForm.get('upiId')?.invalid && upiForm.get('upiId')?.touched" class="text-danger mt-1">
+              <small *ngIf="upiForm.get('upiId')?.errors?.['required']">UPI ID is required</small>
+              <small *ngIf="upiForm.get('upiId')?.errors?.['pattern']">Please enter a valid UPI ID (e.g., user&#64;paytm)</small>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Amount *</label>
+            <input
+              type="number"
+              formControlName="amount"
+              class="form-control"
+              placeholder="Enter payment amount"
+              [class.is-invalid]="upiForm.get('amount')?.invalid && upiForm.get('amount')?.touched"
+            />
+            <div *ngIf="upiForm.get('amount')?.invalid && upiForm.get('amount')?.touched" class="text-danger mt-1">
+              <small>Amount must be greater than 0</small>
+            </div>
+            <small class="text-muted">Auto-calculated from sale data, but you can modify if needed</small>
+          </div>
+
+          <!-- Row 2: Payer Details -->
+          <div class="col-md-6 mb-3">
+            <label>Payer Name *</label>
+            <input
+              type="text"
+              formControlName="payerName"
+              class="form-control"
+              placeholder="Enter your full name"
+              [class.is-invalid]="upiForm.get('payerName')?.invalid && upiForm.get('payerName')?.touched"
+            />
+            <div *ngIf="upiForm.get('payerName')?.invalid && upiForm.get('payerName')?.touched" class="text-danger mt-1">
+              <small>Payer name is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Mobile Number *</label>
+            <input
+              type="tel"
+              formControlName="payerMobile"
+              class="form-control"
+              placeholder="Enter 10-digit mobile number"
+              maxlength="10"
+              [class.is-invalid]="upiForm.get('payerMobile')?.invalid && upiForm.get('payerMobile')?.touched"
+            />
+            <div *ngIf="upiForm.get('payerMobile')?.invalid && upiForm.get('payerMobile')?.touched" class="text-danger mt-1">
+              <small *ngIf="upiForm.get('payerMobile')?.errors?.['required']">Mobile number is required</small>
+              <small *ngIf="upiForm.get('payerMobile')?.errors?.['pattern']">Please enter a valid 10-digit mobile number</small>
+            </div>
+          </div>
+
+          <!-- Row 3: Security & Remarks -->
+          <div class="col-md-6 mb-3">
+            <label>UPI PIN *</label>
+            <input
+              type="password"
+              formControlName="upiPin"
+              class="form-control"
+              placeholder="Enter 4-6 digit UPI PIN"
+              maxlength="6"
+              [class.is-invalid]="upiForm.get('upiPin')?.invalid && upiForm.get('upiPin')?.touched"
+            />
+            <div *ngIf="upiForm.get('upiPin')?.invalid && upiForm.get('upiPin')?.touched" class="text-danger mt-1">
+              <small *ngIf="upiForm.get('upiPin')?.errors?.['required']">UPI PIN is required</small>
+              <small *ngIf="upiForm.get('upiPin')?.errors?.['pattern']">Please enter 4-6 digit UPI PIN</small>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Remarks (Optional)</label>
+            <input
+              type="text"
+              formControlName="remarks"
+              class="form-control"
+              placeholder="Payment remarks"
+            />
+          </div>
+        </div>
+
+        <!-- UPI Apps -->
+        <div class="upi-apps mb-4">
+          <label class="form-label">Choose UPI App:</label>
+          <div class="d-flex gap-2 flex-wrap">
+            <button type="button" class="btn btn-outline-primary btn-sm">
+              <i class="fa fa-mobile"></i> Google Pay
+            </button>
+            <button type="button" class="btn btn-outline-success btn-sm">
+              <i class="fa fa-mobile"></i> PhonePe
+            </button>
+            <button type="button" class="btn btn-outline-info btn-sm">
+              <i class="fa fa-mobile"></i> Paytm
+            </button>
+            <button type="button" class="btn btn-outline-warning btn-sm">
+              <i class="fa fa-mobile"></i> Amazon Pay
+            </button>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="text-center">
+          <button type="button" class="btn btn-secondary me-2" (click)="cancelPayment()">
+            <i class="fa fa-arrow-left"></i> Back to Sale
+          </button>
+          <button type="submit" class="btn btn-success" [disabled]="upiForm.invalid">
+            <i class="fa fa-credit-card"></i> Pay via UPI
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

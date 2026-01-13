@@ -1,0 +1,32 @@
+<!-- use *ngIf to mount/unmount modal so backdrop and focus are clean -->
+<div *ngIf="show" class="modal-backdrop fade show" style="z-index: 1055;"></div>
+<div *ngIf="show" class="modal" tabindex="-1" style="display:block; z-index: 1056;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form [formGroup]="departmentForm" (ngSubmit)="saveDepartment()">
+
+        <div class="modal-header">
+          <h5 class="modal-title">Add Department</h5>
+          <button type="button" class="btn-close" (click)="close()"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="mb-3">
+            <label>Department Name</label>
+            <input formControlName="name" class="form-control" placeholder="Enter department name" />
+            <div *ngIf="departmentForm.get('name')?.invalid && departmentForm.get('name')?.touched" class="text-danger mt-1">
+              <small *ngIf="departmentForm.get('name')?.errors?.['required']">Department name is required</small>
+              <small *ngIf="departmentForm.get('name')?.errors?.['minlength']">Department name must be at least 2 characters</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" (click)="close()">Cancel</button>
+          <button class="btn btn-primary" type="submit" [disabled]="departmentForm.invalid">Save Department</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

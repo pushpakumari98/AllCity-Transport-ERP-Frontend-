@@ -1,0 +1,236 @@
+<div class="container mt-4">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3>Employee Management</h3>
+</div>
+
+<!-- CONFIRMATION DIALOG -->
+<app-confirmation-dialog
+  [show]="showConfirmationDialog"
+  title="Delete Employee"
+  message="Are you sure you want to delete this employee record? This action cannot be undone."
+  confirmButtonText="Delete"
+  cancelButtonText="Cancel"
+  confirmButtonClass="btn-danger"
+  (confirm)="onConfirmDelete()"
+  (cancel)="onCancelDelete()">
+</app-confirmation-dialog>
+
+<!-- EMPLOYEE MODAL -->
+<app-employee-modal
+  [show]="showEmployeeModal"
+  [editMode]="editMode"
+  [employeeData]="selectedEmployee"
+  [userType]="selectedEmployee?.role || 'Employee'"
+  (closeModal)="closeEmployeeModal()"
+  (employeeSaved)="onEmployeeModalSaved($event)">
+</app-employee-modal>
+
+  <!-- EMPLOYEE FORM VIEW -->
+  <div *ngIf="!showEmployeeList">
+    <div class="card mx-auto" style="max-width: 1200px;">
+      <div class="card-header">
+        <!-- View Employee List Button in right corner -->
+        <div class="text-end">
+          <button type="button" class="btn btn-info" (click)="toggleView()">
+            <i class="fa fa-list"></i>View Employee List
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="employeeForm" (ngSubmit)="onQuickAddEmployee()">
+          <!-- Basic Information -->
+          <div class="mb-4">
+            <!-- Form Title -->
+            <div class="text-center mb-4">
+              <div style="border-left: 4px solid #007bff; padding-left: 15px; display: inline-block;">
+                <h4 class="fw-bold mb-0">Add New Employee</h4>
+              </div>
+            </div>
+            <h6 class="text-muted mb-3">Basic Information</h6>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Employee Name <span class="text-danger">*</span></label>
+                <input formControlName="name" type="text" class="form-control" placeholder="Enter full name" />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Contact Number</label>
+                <input formControlName="contactNo" type="tel" class="form-control" placeholder="Enter phone number" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Email Address</label>
+                <input formControlName="email" type="email" class="form-control" placeholder="Enter email address" />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Date of Joining <span class="text-danger">*</span></label>
+                <input formControlName="dateOfJoining" type="date" class="form-control" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Role & Designation -->
+          <div class="mb-4">
+            <h6 class="text-muted mb-3">Role & Department</h6>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Designation</label>
+                <select class="form-control" formControlName="designation">
+                  <option value="">-- Select Designation --</option>
+                  <option value="Employee">Employee</option>
+                  <option value="Manager">Manager</option>
+                  <option value="User">User</option>
+                </select>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Role <span class="text-danger">*</span></label>
+                <select class="form-control" formControlName="role">
+                  <option [ngValue]="null">-- Select Role --</option>
+                  <option [ngValue]="'Team Lead'">Team Lead</option>
+                  <option [ngValue]="'Senior Developer'">Senior Developer</option>
+                  <option [ngValue]="'Developer'">Developer</option>
+                  <option [ngValue]="'Junior Developer'">Junior Developer</option>
+                  <option [ngValue]="'Manager'">Manager</option>
+                  <option [ngValue]="'Supervisor'">Supervisor</option>
+                  <option [ngValue]="'User'">User</option>
+                  <option [ngValue]="'Admin'">Admin</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Department</label>
+                <select class="form-control" formControlName="departmentId">
+                  <option [ngValue]="null">-- Select Department --</option>
+                  <option [ngValue]="1">HR Department</option>
+                  <option [ngValue]="2">Sales Department</option>
+                  <option [ngValue]="3">Transport Department</option>
+                  <option [ngValue]="4">Finance Department</option>
+                </select>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Upload Last Qualification Document</label>
+                <input type="file" class="form-control" formControlName="qualificationDocument"
+                       accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" (change)="onFileSelected($event)" />
+                <small class="text-muted">Supported formats: PDF, DOC, DOCX, JPG, JPEG, PNG</small>
+                <div *ngIf="editMode && selectedEmployee?.qualificationDocument" class="mt-2">
+                  <small class="text-success">Current file: {{ selectedEmployee.qualificationDocument }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="d-flex justify-content-center mt-3">
+            <button type="submit" class="btn btn-primary px-5">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- EMPLOYEE LIST VIEW -->
+  <div *ngIf="showEmployeeList">
+    <!-- Header with buttons like Bookings page -->
+    <div class="row mb-4">
+      <div class="col-12 d-flex justify-content-between align-items-center">
+        <h2 class="mb-0">Employees</h2>
+
+        <!-- Add New Button, Export and Print Buttons -->
+        <div class="d-flex gap-2">
+          <!-- Add New Button -->
+          <button type="button" class="btn btn-success btn-sm" (click)="toggleView()">
+            <i class="fa fa-plus me-2"></i>Add New Employee
+          </button>
+          <div class="btn-group" ngbDropdown>
+            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" ngbDropdownToggle>
+              <i class="fa fa-download me-2"></i>Export
+            </button>
+            <div ngbDropdownMenu class="dropdown-menu">
+              <button class="dropdown-item" (click)="exportToCSV()">
+                <i class="fa fa-file-o me-2"></i>Export to CSV
+              </button>
+              <button class="dropdown-item" (click)="exportToExcel()">
+                <i class="fa fa-file-excel-o me-2"></i>Export to Excel
+              </button>
+              <button class="dropdown-item" (click)="exportToPDF()">
+                <i class="fa fa-file-pdf-o me-2"></i>Export to PDF
+              </button>
+              <button class="dropdown-item" (click)="exportToDocx()">
+                <i class="fa fa-file-word-o me-2"></i>Export to Docx
+              </button>
+            </div>
+          </div>
+          <!-- Print Button -->
+          <button type="button" class="btn btn-secondary btn-sm" (click)="printEmployees()">
+            <i class="fa fa-print me-2"></i>Print List
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMPLOYEES SECTION -->
+    <div class="mb-4">
+      <div class="card">
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped mb-0" *ngIf="employeesList.length > 0">
+              <thead style="background-color: #007bff; color: white;">
+                <tr>
+                  <th class="text-center">Sl.No</th>
+                  <th class="text-center">Employee Name</th>
+                  <th class="text-center">Contact</th>
+                  <th class="text-center">Email</th>
+                  <th class="text-center">Date of Joining</th>
+                  <th class="text-center">Designation</th>
+                  <th class="text-center">Role</th>
+                  <th class="text-center">Department</th>
+                  <th class="text-center">Qualification Document</th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let emp of employeesList; let i = index">
+                  <td class="text-center">{{ i + 1 }}</td>
+                  <td class="text-center">{{ emp.name }}</td>
+                  <td class="text-center">{{ emp.contactNo }}</td>
+                  <td class="text-center">{{ emp.email }}</td>
+                  <td class="text-center">{{ emp.dateOfJoining | date:'dd/MM/yyyy' }}</td>
+                  <td class="text-center">{{ emp.designation }}</td>
+                  <td class="text-center">{{ emp.role }}</td>
+                  <td class="text-center">{{ getDepartmentName(emp.departmentId) }}</td>
+                  <td class="text-center">
+                    <span *ngIf="emp.qualificationDocument" class="badge bg-success">
+                      <i class="fa fa-file me-1"></i>Uploaded
+                    </span>
+                    <span *ngIf="!emp.qualificationDocument" class="badge bg-secondary">
+                      <i class="fa fa-times me-1"></i>Not Uploaded
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <button class="btn btn-sm btn-warning me-2"
+                            (click)="editEmployee(emp)"
+                            title="Edit">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger"
+                            (click)="deleteEmployee(emp)"
+                            title="Delete">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div *ngIf="employeesList.length === 0" class="text-center py-4" style="background-color: #fcf9ff; border-radius: 0 0 5px 5px;">
+            <p class="text-muted mb-2">No employees found.</p>
+            <small class="text-muted">Employees added will appear here.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

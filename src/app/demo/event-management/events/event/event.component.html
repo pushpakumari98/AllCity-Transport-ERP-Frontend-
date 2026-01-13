@@ -1,0 +1,142 @@
+<div class="event-container">
+
+  <!-- HEADER -->
+  <div class="header-bar">
+    <h2>Event & Task Calendar</h2>
+    <button class="btn btn-primary" (click)="showModal = true">+ Add New Event</button>
+  </div>
+
+  <!-- CALENDAR -->
+  <div class="calendar-card">
+    <div class="calendar-inner">
+      <full-calendar [options]="calendarOptions"></full-calendar>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-backdrop" *ngIf="showModal">
+    <div class="modal-box">
+
+      <h4>{{ editMode ? 'Edit Event' : 'Create Event' }}</h4>
+
+      <div class="form-grid">
+
+        <input type="text"
+               class="form-control"
+               placeholder="Title"
+               [(ngModel)]="form.title">
+
+        <textarea class="form-control"
+                  placeholder="Description"
+                  [(ngModel)]="form.description"></textarea>
+
+        <select class="form-select" [(ngModel)]="form.eventType">
+          <option value="">Event Type</option>
+          <option *ngFor="let type of eventTypes" [value]="type">
+            {{ type }}
+          </option>
+        </select>
+
+        <select class="form-select" [(ngModel)]="form.vehiclePriority">
+          <option value="">Vehicle Priority</option>
+          <option *ngFor="let priority of vehiclePriorities" [value]="priority">
+            {{ priority }}
+          </option>
+        </select>
+
+        <select class="form-select" [(ngModel)]="form.category">
+          <option value="">Category</option>
+          <option *ngFor="let category of categories" [value]="category">
+            {{ category }}
+          </option>
+        </select>
+
+        <select class="form-select" [(ngModel)]="form.bookingStatus">
+          <option value="">Booking Status</option>
+          <option *ngFor="let status of bookingStatuses" [value]="status">
+            {{ status }}
+          </option>
+        </select>
+
+        <select class="form-select" [(ngModel)]="form.department">
+          <option value="">Department</option>
+          <option *ngFor="let dept of departments" [value]="dept">
+            {{ dept }}
+          </option>
+        </select>
+
+        <label>
+          <input type="checkbox" [(ngModel)]="form.isPrivateEvent">
+          🔒 Private Event
+        </label>
+
+        <label>
+          <input type="checkbox" [(ngModel)]="form.isDepartmentEvent">
+          👥 Department Event
+        </label>
+
+        <label>
+          <input type="checkbox" [(ngModel)]="form.isVehicleUpdate">
+          🌐 Vehicle Update
+        </label>
+
+        <label>
+          Start Date:
+          <input type="date"
+                 class="form-control"
+                 [(ngModel)]="form.startDate">
+        </label>
+
+        <label>
+          End Date:
+          <input type="date"
+                 class="form-control"
+                 [(ngModel)]="form.endDate">
+        </label>
+
+        <label>
+          Due Date:
+          <input type="date"
+                 class="form-control"
+                 [(ngModel)]="form.dueDate">
+        </label>
+
+      </div>
+
+      <!-- ACTION BUTTONS -->
+      <div class="modal-actions">
+
+        <!-- CREATE -->
+        <button
+          class="btn btn-primary px-5"
+          *ngIf="!editMode"
+          (click)="saveEvent()">
+          Submit
+        </button>
+
+        <!-- UPDATE -->
+        <button
+          class="btn btn-success px-5"
+          *ngIf="editMode"
+          (click)="saveEvent()">
+          Update
+        </button>
+
+        <!-- DELETE -->
+        <button
+          class="btn btn-danger"
+          *ngIf="editMode"
+          (click)="deleteEvent()">
+          Delete
+        </button>
+
+        <button class="btn btn-secondary" (click)="close()">
+          Cancel
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>

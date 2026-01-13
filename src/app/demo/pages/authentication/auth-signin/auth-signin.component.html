@@ -1,0 +1,52 @@
+<div class="auth-wrapper">
+  <div class="auth-content">
+    <div class="auth-bg">
+      <span class="r"></span>
+      <span class="r s"></span>
+      <span class="r s"></span>
+      <span class="r"></span>
+    </div>
+    <div  class="card small-card">
+      <div class="card-body text-center small-card1">
+        <div class="mb-0">
+          <img src="assets/logo/logo1.png" alt="AllCity Transport Agency" class="logo-circle" />
+        </div>
+        <h3 class="mb-4">LogIn</h3>
+
+        <!-- Email -->
+        <div class="input-group mb-3">
+          <input type="email"
+                 class="form-control"
+                 placeholder="Email"
+                 [(ngModel)]="loginData.email"
+                 name="email">
+        </div>
+
+        <!-- Password -->
+        <div class="input-group mb-3">
+          <input type="password"
+                 class="form-control"
+                 placeholder="Password"
+                 [(ngModel)]="loginData.password"
+                 name="password">
+        </div>
+
+        <!-- Login Button -->
+        <button class="btn btn-primary mb-3" (click)="onLogin()">
+          LogIn
+        </button>
+
+        <!-- Error Message -->
+        <p class="text-danger" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+        <p class="mb-0 text-muted">
+          Don’t have an account?
+
+          <a [routerLink]="['/register']">sign up</a>
+
+
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+/* Drivers List Styles */
+/* Sales List Component Styles */
+
+.table-responsive {
+  border-radius: 8px;
+}
+
+table {
+  margin-bottom: 0;
+
+  th {
+     background: linear-gradient(135deg, #007bff, #0056b3);
+    font-weight: 600;
+    border-top: none;
+  }
+
+  td {
+    vertical-align: middle;
+  }
+}
+
+.btn-sm {
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.text-center h2 {
+  color: #495057;
+  margin-bottom: 1.5rem;
+}
+
+.empty-state {
+  color: #6c757d;
+}

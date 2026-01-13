@@ -1,0 +1,101 @@
+<div class="page-container">
+  <div class="card">
+    <div class="card-header text-center">
+      <h5>Save Driver</h5>
+      <!-- View Drivers List Button in right corner -->
+      <div class="text-end">
+        <button type="button" class="btn btn-info" (click)="viewDriversList()">
+          <i class="fa fa-list"></i> View Drivers List
+        </button>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <form [formGroup]="driverForm" (ngSubmit)="onSubmit()">
+
+        <!-- 3 COLUMN GRID -->
+        <div class="row">
+
+          <div class="col-md-4 mb-3">
+            <label>Sl. No</label>
+            <input formControlName="serialNumber" class="form-control" placeholder="Enter Sl. No" />
+            <div *ngIf="driverForm.get('serialNumber')?.invalid && driverForm.get('serialNumber')?.touched" class="text-danger mt-1">
+              <small>Sl. No is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Date</label>
+            <input type="date" formControlName="date" class="form-control" />
+            <div *ngIf="driverForm.get('date')?.invalid && driverForm.get('date')?.touched" class="text-danger mt-1">
+              <small>Date is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Vehicle No</label>
+            <input formControlName="vehicleNumber" class="form-control" placeholder="Enter Vehicle No" />
+            <div *ngIf="driverForm.get('vehicleNumber')?.invalid && driverForm.get('vehicleNumber')?.touched" class="text-danger mt-1">
+              <small>Vehicle No is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Driver Name</label>
+            <input formControlName="driverName" class="form-control" placeholder="Driver Name" />
+            <div *ngIf="driverForm.get('driverName')?.invalid && driverForm.get('driverName')?.touched" class="text-danger mt-1">
+              <small>Driver Name is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Started From</label>
+            <input formControlName="startedFrom" class="form-control" placeholder="Started From" />
+            <div *ngIf="driverForm.get('startedFrom')?.invalid && driverForm.get('startedFrom')?.touched" class="text-danger mt-1">
+              <small>Started From is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>To</label>
+            <input formControlName="destination" class="form-control" placeholder="Destination" />
+            <div *ngIf="driverForm.get('destination')?.invalid && driverForm.get('destination')?.touched" class="text-danger mt-1">
+              <small>Destination is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Type of Material Carry</label>
+            <input formControlName="carryMaterialType" class="form-control" placeholder="Type of Material" />
+            <div *ngIf="driverForm.get('carryMaterialType')?.invalid && driverForm.get('carryMaterialType')?.touched" class="text-danger mt-1">
+              <small>Type of Material is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Contact No</label>
+            <input type="tel" formControlName="contactNumber" class="form-control" placeholder="Contact No" />
+            <div *ngIf="driverForm.get('contactNumber')?.invalid && driverForm.get('contactNumber')?.touched" class="text-danger mt-1">
+              <small>Contact No is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Address</label>
+            <textarea formControlName="address" class="form-control" placeholder="Enter Address" rows="2"></textarea>
+            <div *ngIf="driverForm.get('address')?.invalid && driverForm.get('address')?.touched" class="text-danger mt-1">
+              <small>Address is required</small>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SUBMIT BUTTON -->
+        <div class="d-flex justify-content-center mt-3">
+          <button type="submit" class="btn btn-primary px-5">Submit</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

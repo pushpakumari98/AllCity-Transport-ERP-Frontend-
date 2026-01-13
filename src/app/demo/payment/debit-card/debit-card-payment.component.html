@@ -1,0 +1,175 @@
+<div class="page-container">
+  <div class="card">
+    <div class="card-header text-center">
+      <h5>Debit Card Payment</h5>
+      <div class="text-muted small">Secure debit card payment for vehicle sale</div>
+    </div>
+
+    <div class="card-body">
+      <!-- Sale Summary -->
+      <div class="sale-summary mb-4">
+        <h6 class="text-primary">Sale Summary</h6>
+        <div class="row">
+          <div class="col-md-6">
+            <p><strong>Vehicle:</strong> {{ saleData?.lorryNumber }}</p>
+            <p><strong>Date:</strong> {{ saleData?.date | date:'dd-MM-yyyy' }}</p>
+            <p><strong>Weight:</strong> {{ saleData?.weight }} kg</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Lorry Hire:</strong> ₹{{ saleData?.lorryHire }}</p>
+            <p><strong>Commission:</strong> ₹{{ saleData?.commission }}</p>
+            <p><strong>Bility:</strong> ₹{{ saleData?.bility }}</p>
+            <p><strong>Advance Paid:</strong> ₹{{ saleData?.totalAdvance }}</p>
+          </div>
+        </div>
+        <hr>
+        <div class="text-end">
+          <h5 class="text-success">Total Amount: ₹{{ debitCardForm.get('amount')?.value }}</h5>
+        </div>
+      </div>
+
+      <!-- Debit Card Form -->
+      <form [formGroup]="debitCardForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label>Card Type *</label>
+            <select
+              formControlName="cardType"
+              class="form-control"
+              [class.is-invalid]="debitCardForm.get('cardType')?.invalid && debitCardForm.get('cardType')?.touched"
+            >
+              <option [ngValue]="null">-- Select Card Type --</option>
+              <option *ngFor="let type of cardTypes" [ngValue]="type">{{ type }}</option>
+            </select>
+            <div *ngIf="debitCardForm.get('cardType')?.invalid && debitCardForm.get('cardType')?.touched" class="text-danger mt-1">
+              <small>Please select card type</small>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Cardholder Name *</label>
+            <input
+              type="text"
+              formControlName="cardholderName"
+              class="form-control"
+              placeholder="Name on card"
+              [class.is-invalid]="debitCardForm.get('cardholderName')?.invalid && debitCardForm.get('cardholderName')?.touched"
+            />
+            <div *ngIf="debitCardForm.get('cardholderName')?.invalid && debitCardForm.get('cardholderName')?.touched" class="text-danger mt-1">
+              <small>Cardholder name is required</small>
+            </div>
+          </div>
+
+          <div class="col-md-12 mb-3">
+            <label>Card Number *</label>
+            <input
+              type="text"
+              formControlName="cardNumber"
+              class="form-control"
+              placeholder="1234 5678 9012 3456"
+              maxlength="16"
+              [class.is-invalid]="debitCardForm.get('cardNumber')?.invalid && debitCardForm.get('cardNumber')?.touched"
+            />
+            <div *ngIf="debitCardForm.get('cardNumber')?.invalid && debitCardForm.get('cardNumber')?.touched" class="text-danger mt-1">
+              <small *ngIf="debitCardForm.get('cardNumber')?.errors?.['required']">Card number is required</small>
+              <small *ngIf="debitCardForm.get('cardNumber')?.errors?.['pattern']">Please enter a valid 16-digit card number</small>
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label>Expiry Month *</label>
+            <select
+              formControlName="expiryMonth"
+              class="form-control"
+              [class.is-invalid]="debitCardForm.get('expiryMonth')?.invalid && debitCardForm.get('expiryMonth')?.touched"
+            >
+              <option [ngValue]="null">MM</option>
+              <option *ngFor="let month of [1,2,3,4,5,6,7,8,9,10,11,12]" [ngValue]="month">{{ month.toString().padStart(2, '0') }}</option>
+            </select>
+            <div *ngIf="debitCardForm.get('expiryMonth')?.invalid && debitCardForm.get('expiryMonth')?.touched" class="text-danger mt-1">
+              <small>Please select expiry month</small>
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label>Expiry Year *</label>
+            <select
+              formControlName="expiryYear"
+              class="form-control"
+              [class.is-invalid]="debitCardForm.get('expiryYear')?.invalid && debitCardForm.get('expiryYear')?.touched"
+            >
+              <option [ngValue]="null">YYYY</option>
+              <option *ngFor="let year of [2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035]" [ngValue]="year">{{ year }}</option>
+            </select>
+            <div *ngIf="debitCardForm.get('expiryYear')?.invalid && debitCardForm.get('expiryYear')?.touched" class="text-danger mt-1">
+              <small>Please select expiry year</small>
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label>CVV *</label>
+            <input
+              type="password"
+              formControlName="cvv"
+              class="form-control"
+              placeholder="123"
+              maxlength="3"
+              [class.is-invalid]="debitCardForm.get('cvv')?.invalid && debitCardForm.get('cvv')?.touched"
+            />
+            <div *ngIf="debitCardForm.get('cvv')?.invalid && debitCardForm.get('cvv')?.touched" class="text-danger mt-1">
+              <small *ngIf="debitCardForm.get('cvv')?.errors?.['required']">CVV is required</small>
+              <small *ngIf="debitCardForm.get('cvv')?.errors?.['pattern']">Please enter a valid 3-digit CVV</small>
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label>PIN *</label>
+            <input
+              type="password"
+              formControlName="pin"
+              class="form-control"
+              placeholder="1234"
+              maxlength="4"
+              [class.is-invalid]="debitCardForm.get('pin')?.invalid && debitCardForm.get('pin')?.touched"
+            />
+            <div *ngIf="debitCardForm.get('pin')?.invalid && debitCardForm.get('pin')?.touched" class="text-danger mt-1">
+              <small *ngIf="debitCardForm.get('pin')?.errors?.['required']">PIN is required</small>
+              <small *ngIf="debitCardForm.get('pin')?.errors?.['pattern']">Please enter a valid 4-digit PIN</small>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Amount *</label>
+            <input
+              type="number"
+              formControlName="amount"
+              class="form-control"
+              placeholder="Enter payment amount"
+              [class.is-invalid]="debitCardForm.get('amount')?.invalid && debitCardForm.get('amount')?.touched"
+            />
+            <div *ngIf="debitCardForm.get('amount')?.invalid && debitCardForm.get('amount')?.touched" class="text-danger mt-1">
+              <small>Amount must be greater than 0</small>
+            </div>
+            <small class="text-muted">Auto-calculated from sale data, but you can modify if needed</small>
+          </div>
+        </div>
+
+        <!-- Security Notice -->
+        <div class="alert alert-info mb-4">
+          <i class="fa fa-lock"></i>
+          <strong>Secure Payment:</strong> Your debit card details are encrypted and processed securely. PIN verification required.
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="text-center">
+          <button type="button" class="btn btn-secondary me-2" (click)="cancelPayment()">
+            <i class="fa fa-arrow-left"></i> Back to Sale
+          </button>
+          <button type="submit" class="btn btn-success" [disabled]="debitCardForm.invalid">
+            <i class="fa fa-credit-card"></i> Pay with Debit Card
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
