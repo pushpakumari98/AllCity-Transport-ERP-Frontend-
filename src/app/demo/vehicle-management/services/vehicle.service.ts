@@ -20,7 +20,7 @@ export class VehicleService {
   }
 
   // ✅ Add Vehicle (JSON only)
-  addVehicle(vehicle: Vehicle): Observable<Vehicle> {
+  addVehicle(vehicle: Vehicle): Observable<any> {
     // For now, send JSON without file upload until backend supports multipart
     const vehicleData = {
       vehicleRegNo: vehicle.vehicleRegNo,

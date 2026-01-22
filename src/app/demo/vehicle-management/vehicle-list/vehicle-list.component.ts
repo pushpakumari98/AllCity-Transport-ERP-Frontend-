@@ -51,14 +51,6 @@ export class VehicleListComponent implements OnInit {
         if (Array.isArray(data)) {
           this.vehicles = data;
           console.log(`Successfully loaded ${data.length} vehicles`);
-          // Debug: Log image URLs for troubleshooting
-          data.forEach((vehicle, index) => {
-            if (vehicle.imageUrl) {
-              console.log(`Vehicle ${index + 1} (${vehicle.vehicleId}): imageUrl = ${vehicle.imageUrl}`);
-            } else {
-              console.log(`Vehicle ${index + 1} (${vehicle.vehicleId}): No imageUrl`);
-            }
-          });
         } else {
           console.error('Response is not an array:', data);
           this.vehicles = [];

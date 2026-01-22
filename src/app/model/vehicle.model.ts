@@ -6,15 +6,13 @@ export interface Vehicle {
   id?: number;
   vehicleId?: string;
   vehicleRegNo: string;
-  permitLevel: PermitLevel;
-  driverMob: number;
   vehicleType: VehicleType;
-  price: number;
-  capacity: number;
+  permitLevel?: PermitLevel;
+  driverMob?: number;
+  price?: number;
+  capacity?: number;
   description?: string;
-  imageUrl?: string;
   originCity?: string;
   destinationCity?: string;
   vehicleStatus?: VehicleStatus;
-  imageFile?: File;
 }
