@@ -125,26 +125,7 @@ const routes: Routes = [
         path: 'employee-management',
         loadComponent: () => import('./demo/employee-management/employee-management').then(c => c.EmployeeManagement)
       },
-      {
-        path:'payment/upi',
-        loadComponent: () => import('./demo/payment/upi/upi-payment.component').then(c => c.UpiPaymentComponent)
-      },
-      {
-        path: 'payment/cash',
-        loadComponent: () => import('./demo/payment/cash/cash-payment.component').then(c => c.CashPaymentComponent)
-      },
-      {
-        path: 'payment/netbanking',
-        loadComponent: () => import('./demo/payment/netbanking/netbanking-payment.component').then(c => c.NetbankingPaymentComponent)
-      },
-      {
-        path: 'payment/credit-card',
-        loadComponent: () => import('./demo/payment/credit-card/credit-card-payment.component').then(c => c.CreditCardPaymentComponent)
-      },
-      {
-        path: 'payment/debit-card',
-        loadComponent: () => import('./demo/payment/debit-card/debit-card-payment.component').then(c => c.DebitCardPaymentComponent)
-      },
+
 
       // ✅ HR Payroll Management Page
       {

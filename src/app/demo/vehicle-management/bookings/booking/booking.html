@@ -13,7 +13,6 @@
       <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
 
         <div class="row">
-
           <!-- Booking Date -->
           <div class="col-md-4 mb-3">
             <label>Booking Date *</label>
@@ -24,20 +23,22 @@
               <small>Booking date is required</small>
             </div>
           </div>
-            <!-- Booking Received Date -->
+
+          <!-- Booking Received Date -->
           <div class="col-md-4 mb-3">
             <label>Booking Received Date</label>
             <input type="date" formControlName="bookingReceivedDate"
               class="form-control" placeholder="Select received date" />
           </div>
 
-           <!-- Lorry Balance Paid Date -->
+          <!-- Lorry Balance Paid Date -->
           <div class="col-md-4 mb-3">
             <label>Lorry Balance Paid Date</label>
             <input type="date" formControlName="lorryBalancePaidDate"
               class="form-control" placeholder="Select balance paid date" />
           </div>
-           <!-- Started From -->
+
+          <!-- Started From -->
           <div class="col-md-4 mb-3">
             <label>Started From *</label>
             <input formControlName="startedFrom"
@@ -59,31 +60,35 @@
             </div>
           </div>
 
-          <!-- Vehicle Type -->
-          <div class="col-md-4 mb-3">
-            <label>Vehicle Type *</label>
-            <select formControlName="vehicleType" class="form-control">
-              <option value="" disabled selected>Select vehicle type</option>
-              <option *ngFor="let type of vehicleTypeOptions" [value]="type">{{ type }}</option>
-            </select>
-            <div *ngIf="bookingForm.get('vehicleType')?.invalid && bookingForm.get('vehicleType')?.touched"
-                 class="text-danger mt-1">
-              <small>Vehicle type is required</small>
-            </div>
-          </div>
-
           <!-- Select Vehicle -->
           <div class="col-md-4 mb-3">
             <label>Select Vehicle *</label>
-            <select formControlName="vehicleId" class="form-control">
+            <select formControlName="vehicleId" class="form-control" (change)="onVehicleChange($event)">
               <option value="" disabled>Select vehicle</option>
               <option *ngFor="let v of availableVehicles" [value]="v.id">
-                {{ v.vehicleRegNo }} ({{ v.vehicleType }})
+                {{ v.vehicleRegNo }}
               </option>
             </select>
+            <div *ngIf="bookingForm.get('vehicleId')?.invalid && bookingForm.get('vehicleId')?.touched"
+                 class="text-danger mt-1">
+              <small>Vehicle selection is required</small>
+            </div>
           </div>
 
-           <div class="col-md-4 mb-3">
+          <!-- Vehicle Type (Auto-populated) -->
+          <div class="col-md-4 mb-3">
+            <label>Vehicle Type</label>
+            <input formControlName="vehicleType" class="form-control" readonly />
+          </div>
+
+          <!-- Vehicle Number (Auto-populated) -->
+          <div class="col-md-4 mb-3">
+            <label>Vehicle Number</label>
+            <input formControlName="vehicleNo" class="form-control" readonly />
+          </div>
+
+          <!-- Vehicle Status -->
+          <div class="col-md-4 mb-3">
             <label>Vehicle Status *</label>
             <select formControlName="vehicleStatus" class="form-control">
               <option value="" disabled selected>Select vehicle status</option>
@@ -95,7 +100,7 @@
             </div>
           </div>
 
-                  <!-- Booking Status -->
+          <!-- Booking Status -->
           <div class="col-md-4 mb-3">
             <label>Booking Status *</label>
             <select formControlName="bookingStatus" class="form-control">
@@ -108,7 +113,7 @@
             </div>
           </div>
 
-                    <!-- Driver Name -->
+          <!-- Driver Name -->
           <div class="col-md-4 mb-3">
             <label>Driver Name</label>
             <input formControlName="driverName"
@@ -153,22 +158,12 @@
             </select>
           </div>
 
-                   <!-- POD Document -->
-<div class="row justify-content-center">
-  <div class="col-md-4 mb-3 text-center">
-    <label class="form-label">POD Document</label>
-    <input
-      formControlName="podDocument"
-      class="form-control"
-      placeholder="Enter POD document name or link"
-    />
-  </div>
-
-
-
-</div>
-
-
+          <!-- POD Document -->
+          <div class="col-md-4 mb-3">
+            <label>POD Document</label>
+            <input formControlName="podDocument"
+              class="form-control" placeholder="Enter POD document name or link" />
+          </div>
         </div>
 
         <!-- Submit -->

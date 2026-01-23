@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { VehicleBooking } from '../models/vehicle-booking.model';
-import { Vehicle } from '../models/vehicle-booking.model';
+import { Vehicle } from '../../../../model/vehicle.model';
 
 @Injectable({ providedIn: 'root' })
 export class BookingService {
@@ -76,7 +76,7 @@ export class BookingService {
 
   // ✅ Get available vehicles
   getAvailableVehicles(): Observable<Vehicle[]> {
-    return this.getAllVehicles();
+    return this.http.get<Vehicle[]>('/api/vehicles/available');
   }
 
   // ✅ Get vehicle by ID

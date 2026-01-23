@@ -80,7 +80,7 @@ export class SaleComponent implements OnInit {
         this.saleService.addSale(requestData).subscribe(
           response => {
             console.log('Sale submitted successfully to backend:', response);
-            this.snackBar.open('Vehicle sold successfully! Proceeding to payment...', 'Close', {
+            this.snackBar.open('Vehicle sold successfully!', 'Close', {
               duration: 3000,
               verticalPosition: 'top',
               horizontalPosition: 'center'
@@ -88,13 +88,11 @@ export class SaleComponent implements OnInit {
             // Trigger notification with backend response
             // this.notificationService.notifySale(response);
             this.saleForm.reset();
-
-            // Redirect to payment page based on payment mode
-            this.redirectToPayment(payload.paymentMode, response || saleData);
+            this.router.navigate(['/app/vehicle-sales-list']);
           },
           error => {
             console.error('Backend error, saving to localStorage:', error);
-            this.snackBar.open('Vehicle sold successfully (saved locally)! Proceeding to payment...', 'Close', {
+            this.snackBar.open('Vehicle sold successfully (saved locally)!', 'Close', {
               duration: 3000,
               verticalPosition: 'top',
               horizontalPosition: 'center'
@@ -104,8 +102,7 @@ export class SaleComponent implements OnInit {
             // Trigger notification
             // this.notificationService.notifySale(saleData);
             this.saleForm.reset();
-            // Redirect to payment page based on payment mode
-            this.redirectToPayment(payload.paymentMode, saleData);
+            this.router.navigate(['/app/vehicle-sales-list']);
           }
         );
       }
@@ -150,41 +147,7 @@ export class SaleComponent implements OnInit {
     console.log('Sale saved to localStorage:', saleData);
   }
 
-  private redirectToPayment(paymentMode: string, saleData: any) {
-    console.log('Redirecting to payment for mode:', paymentMode, 'with sale data:', saleData);
 
-    switch (paymentMode.toUpperCase()) {
-      case 'UPI':
-        this.router.navigate(['/payment/upi'], {
-          state: { saleData, paymentMode: 'UPI' }
-        });
-        break;
-      case 'CASH':
-        this.router.navigate(['/payment/cash'], {
-          state: { saleData, paymentMode: 'CASH' }
-        });
-        break;
-      case 'NETBANKING':
-        this.router.navigate(['/payment/netbanking'], {
-          state: { saleData, paymentMode: 'NETBANKING' }
-        });
-        break;
-      case 'CREDIT_CARD':
-        this.router.navigate(['/payment/credit-card'], {
-          state: { saleData, paymentMode: 'CREDIT_CARD' }
-        });
-        break;
-      case 'DEBIT_CARD':
-        this.router.navigate(['/payment/debit-card'], {
-          state: { saleData, paymentMode: 'DEBIT_CARD' }
-        });
-        break;
-      default:
-        // Fallback to sales list if payment mode is unknown
-        console.warn('Unknown payment mode:', paymentMode, 'redirecting to sales list');
-        this.router.navigate(['/app/vehicle-sales-list']);
-    }
-  }
 
   viewSoldVehiclesList() {
     this.router.navigate(['/app/vehicle-sales-list']);

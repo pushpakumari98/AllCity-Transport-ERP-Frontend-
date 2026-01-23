@@ -47,19 +47,20 @@ export class Booking implements OnInit {
       bookingDate: [new Date().toISOString().split('T')[0], Validators.required], // Default to today
       startedFrom: ['', Validators.required],
       destination: ['', Validators.required],
-      vehicleType: ['', Validators.required],
+      vehicleType: [{value: '', disabled: true}], // Auto-populated from selected vehicle
       vehicleId: ['', Validators.required],
-      driverName: ['', Validators.required],
+      vehicleNo: [{value: '', disabled: true}], // Auto-populated from selected vehicle
+      driverName: [''],
       bookingHire: [0, Validators.required],
-      bookingAdvance: [0, Validators.required],
-      bookingBalance: [0, Validators.required],
+      bookingAdvance: [0],
+      bookingBalance: [0],
       bookingReceivedDate: [''],
       detain: [''],
       podReceived: [null],
       podDocument: [''],
       lorryBalancePaidDate: [''],
       bookingStatus: ['PENDING', Validators.required],
-      vehicleStatus: ['AVAILABLE', Validators.required] // Required field
+      vehicleStatus: ['AVAILABLE', Validators.required]
     });
   }
 
@@ -73,12 +74,30 @@ export class Booking implements OnInit {
   loadAvailableVehicles(): void {
     this.bookingService.getAvailableVehicles().subscribe({
       next: (vehicles) => {
-        this.availableVehicles = vehicles;
+        // Filter to ensure only vehicles with AVAILABLE status are shown
+        this.availableVehicles = vehicles.filter(v => v.vehicleStatus === 'AVAILABLE');
       },
       error: () => {
         this.snackBar.open('No available vehicles', '', { duration: 3000 });
       }
     });
+  }
+
+  onVehicleChange(event: any): void {
+    const selectedVehicleId = event.target.value;
+    const selectedVehicle = this.availableVehicles.find(v => v.id == selectedVehicleId);
+
+    if (selectedVehicle) {
+      this.bookingForm.patchValue({
+        vehicleType: selectedVehicle.vehicleType,
+        vehicleNo: selectedVehicle.vehicleRegNo
+      });
+    } else {
+      this.bookingForm.patchValue({
+        vehicleType: '',
+        vehicleNo: ''
+      });
+    }
   }
 
 
@@ -112,23 +131,23 @@ export class Booking implements OnInit {
     const payload = {
       id: Date.now(),
       bookingId: `BK-${Date.now()}`,
-      vehicleId: selectedVehicle.id,
-      vehicleNo: selectedVehicle.vehicleRegNo,
+      bookingDate: formValue.bookingDate,
       startedFrom: formValue.startedFrom,
       destination: formValue.destination,
+      vehicleId: formValue.vehicleId,
+      vehicleNo: selectedVehicle.vehicleRegNo,
       vehicleType: selectedVehicle.vehicleType,
       driverName: formValue.driverName,
       bookingHire: formValue.bookingHire,
       bookingAdvance: formValue.bookingAdvance,
       bookingBalance: formValue.bookingBalance,
-      bookingDate: formValue.bookingDate,
-      bookingStatus: formValue.bookingStatus,
-      vehicleStatus: formValue.vehicleStatus,
       bookingReceivedDate: formValue.bookingReceivedDate,
       detain: formValue.detain,
       podReceived: formValue.podReceived,
       podDocument: formValue.podDocument,
-      lorryBalancePaidDate: formValue.lorryBalancePaidDate
+      lorryBalancePaidDate: formValue.lorryBalancePaidDate,
+      bookingStatus: formValue.bookingStatus,
+      vehicleStatus: formValue.vehicleStatus
     };
 
 
