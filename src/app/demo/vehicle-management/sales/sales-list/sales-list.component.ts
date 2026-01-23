@@ -92,7 +92,7 @@ export class SalesListComponent implements OnInit {
 
   addSale() {
     // Navigate to the dedicated sale form page
-    this.router.navigate(['/sale']);
+    this.router.navigate(['/app/sale']);
   }
 
   updateSale(sale: VehicleSale) {
