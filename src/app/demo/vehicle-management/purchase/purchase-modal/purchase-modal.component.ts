@@ -61,7 +61,7 @@ export class PurchaseModalComponent implements OnInit, OnChanges {
   private initializeForm(): void {
     this.purchaseForm = this.fb.group({
       date: ['', Validators.required],
-      vehicleNo: ['', [Validators.required, Validators.pattern(/^([A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}|[A-Z]{3}[0-9]{2}[A-Z]{3})$/)]],
+      vehicleNo: ['', [Validators.required, Validators.pattern(/^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$/)]],
       bookingHire: ['', [Validators.required, Validators.min(0)]],
       bookingReceivingBalanceDate: [''],
       fromLocation: ['', Validators.required],
