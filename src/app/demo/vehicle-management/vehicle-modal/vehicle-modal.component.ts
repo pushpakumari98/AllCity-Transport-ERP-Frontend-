@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PermitLevel } from '../../../enums/permit-level.enum';
@@ -15,7 +15,7 @@ import { VehicleService } from '../services/vehicle.service';
   templateUrl: './vehicle-modal.component.html',
   styleUrls: ['./vehicle-modal.component.scss']
 })
-export class VehicleModalComponent implements OnInit {
+export class VehicleModalComponent implements OnInit, OnChanges {
 
   @Input() show = false;
   @Input() editMode = false;

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Driver } from '../models/driver.model';
@@ -12,7 +12,7 @@ import { DriverService } from '../services/driver.service';
   templateUrl: './driver-modal.component.html',
   styleUrls: ['./driver-modal.component.scss']
 })
-export class DriverModalComponent implements OnInit {
+export class DriverModalComponent implements OnInit, OnChanges {
 
   @Input() show = false;
   @Input() editMode = false;

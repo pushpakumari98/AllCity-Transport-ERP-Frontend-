@@ -8,6 +8,7 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = localStorage.getItem('token');
 
+    // Add JWT token to all requests (GET, POST, PUT, DELETE)
     if (token) {
       req = req.clone({
         setHeaders: {

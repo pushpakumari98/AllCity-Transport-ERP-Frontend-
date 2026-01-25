@@ -13,7 +13,7 @@ import { VehicleBooking } from '../models/vehicle-booking.model';
   templateUrl: './booking-modal.component.html',
   styleUrls: ['./booking-modal.component.scss']
 })
-export class BookingModalComponent implements OnInit {
+export class BookingModalComponent implements OnInit, OnChanges {
 
   @Input() show = false;
   @Input() editMode = false;

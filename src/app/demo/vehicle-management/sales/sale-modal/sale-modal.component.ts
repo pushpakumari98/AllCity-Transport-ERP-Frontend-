@@ -13,7 +13,7 @@ import { VehicleSale } from '../models/vehicle-sale.model';
   templateUrl: './sale-modal.component.html',
   styleUrls: ['./sale-modal.component.scss']
 })
-export class SaleModalComponent implements OnInit {
+export class SaleModalComponent implements OnInit, OnChanges {
 
   @Input() show = false;
   @Input() editMode = false;
