@@ -7,7 +7,7 @@ import packageInfo from '../../package.json';
 export const environment = {
   appVersion: packageInfo.version,
   production: false,
-  apiUrl: 'https://allcity-transport-erp.onrender.com/api'
+  apiUrl: 'https://allcity-transport-erp.onrender.com'
 };
 /*
  * For easier debugging in development mode, you can import the following file
