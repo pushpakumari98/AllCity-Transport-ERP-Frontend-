@@ -23,14 +23,9 @@
     "lib": [
       "es2020", // // this will auto target to latest by angular cli
       "dom"
-    ],
-    "typeRoots": ["node_modules/@types"],
-    "types": ["jasmine", "jest"]
+    ]
   },
-  "angularCompilerOptions": {
-    "enableI18nLegacyMessageIdFormat": false,
-    "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": false
-  }
+  "typeRoots": ["node_modules/@types"],
+  "types": ["jasmine", "jest"],
+  "exclude": ["src/**/*.spec.ts", "src/**/*.test.ts"]
 }
